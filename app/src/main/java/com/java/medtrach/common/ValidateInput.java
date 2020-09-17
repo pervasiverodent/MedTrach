@@ -15,7 +15,7 @@ public class ValidateInput {
      * SignInActivity.class
      */
 
-    ValidateInput(Context myContext, EditText myEmail, EditText myPassword) {
+    public ValidateInput(Context myContext, EditText myEmail, EditText myPassword) {
         context = myContext;
         email = myEmail;
         password = myPassword;

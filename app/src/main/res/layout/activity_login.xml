@@ -11,14 +11,14 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sign Up"
+        android:text="Login"
         android:textSize="32sp"
         android:textStyle="bold"
         android:textColor="@color/colorGrey"
         android:fontFamily="sans-serif-condensed"
         android:layout_marginBottom="16dp"/>
 
-    <com.google.android.material.textfield.TextInputEditText
+    <EditText
         android:id="@+id/login_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
         android:inputType="textEmailAddress"
         android:layout_marginBottom="8dp"/>
 
-    <com.google.android.material.textfield.TextInputEditText
+    <EditText
         android:id="@+id/login_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
