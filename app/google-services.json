@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "999998284046",
+    "firebase_url": "https://medtrach-c3366.firebaseio.com",
+    "project_id": "medtrach-c3366",
+    "storage_bucket": "medtrach-c3366.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:999998284046:android:c4bd00d4e01ab1bba1375f",
+        "android_client_info": {
+          "package_name": "com.java.medtrach"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "999998284046-jja5dpqbiv4bm6ab6tkjc4oal7e3hg3c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.java.medtrach",
+            "certificate_hash": "84194f1807d7c4e234fcb4dcddcbb9689f9c29c9"
+          }
+        },
+        {
+          "client_id": "999998284046-6ok9s9t4mdq5v0ek9hsmjiisblfisrhp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzYfl3QOEiRl6DEzHK99h4OevXkeZJg5w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "999998284046-6ok9s9t4mdq5v0ek9hsmjiisblfisrhp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
