@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:layout_marginBottom="8dp"
-        android:hint="Confirm Password"/>
+        android:hint="Repeat Password"/>
 
     <Button
         android:id="@+id/sign_up_button"
