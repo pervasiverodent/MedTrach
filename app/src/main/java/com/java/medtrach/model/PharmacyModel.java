@@ -1,5 +1,5 @@
 package com.java.medtrach.model;
 
-public class Pharmacy {
+public class PharmacyModel {
     private String pharmacyId;
 }

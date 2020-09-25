@@ -3,23 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_catalogue">
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="com.java.medtrach.ui.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/nav_catalogue"
+        android:name="com.java.medtrach.ui.catalogue.CatalogueFragment"
+        android:label="@string/menu_catalogue"
+        tools:layout="@layout/fragment_catalogue" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.java.medtrach.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_profile"
+        android:name="com.java.medtrach.ui.profile.ProfileFragment"
+        android:label="@string/menu_profile"
+        tools:layout="@layout/fragment_profile" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.java.medtrach.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_map"
+        android:name="com.java.medtrach.ui.map.MapFragment"
+        android:label="Google Maps"
+        tools:layout="@layout/fragment_map" />
 </navigation>

@@ -1,12 +1,12 @@
 package com.java.medtrach.model;
 
-public class User {
+public class UserModel {
     private String uid, username, password;
 
-    public User() {
+    public UserModel() {
     }
 
-    public User(String uid, String username, String password) {
+    public UserModel(String uid, String username, String password) {
         this.uid = uid;
         this.username = username;
         this.password = password;

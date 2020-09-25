@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.catalogue.AddPharmacyActivity"
+    android:orientation="vertical"
+    android:layout_margin="32dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Drugs"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="22dp"
+        android:textColor="@color/colorBlack"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Upload Image Drug"
+        android:fontFamily="sans-serif-condensed"
+        android:textColor="@color/colorBlack"
+        android:textSize="18sp"
+        android:layout_marginBottom="8dp"
+        android:drawableStart="@drawable/ic_menu_camera"
+        android:drawablePadding="8dp"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed"
+        android:textColor="@color/colorBlack"
+        android:hint="Drug Name"
+        android:drawableStart="@drawable/ic_baseline_keyboard_arrow_right_24"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed"
+        android:textColor="@color/colorBlack"
+        android:lines="3"
+        android:maxLines="7"
+        android:hint="Description"
+        android:drawableStart="@drawable/ic_baseline_description_24"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed"
+        android:textColor="@color/colorBlack"
+        android:drawableStart="@drawable/ic_baseline_store_24"
+        android:hint="Pharmacy"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorWhite"
+        android:background="@color/colorBlack"
+        android:layout_marginTop="16dp"
+        android:text="Submit"
+        />
+
+</LinearLayout>
