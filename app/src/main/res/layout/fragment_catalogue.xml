@@ -7,28 +7,74 @@
     android:orientation="vertical"
     tools:context=".ui.catalogue.CatalogueFragment">
 
-    <Button
-        android:id="@+id/add_pharmacy_button"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorBlack"
-        android:textColor="@color/colorWhite"
-        android:text="Add Pharmacy"
-        android:textStyle="bold"
-        android:layout_marginBottom="4dp"/>
+        android:orientation="horizontal"
+        android:weightSum="2">
 
-    <Button
-        android:id="@+id/add_drugs_button"
+        <Button
+            android:id="@+id/add_pharmacy_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/colorBlack"
+            android:textColor="@color/colorWhite"
+            android:text="Add Pharmacy"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/add_drugs_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/colorBlack"
+            android:textColor="@color/colorWhite"
+            android:text="Add Drugs"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorBlack"
-        android:textColor="@color/colorWhite"
-        android:text="Add Drugs"
-        android:textStyle="bold"
-        android:layout_marginBottom="4dp"/>
+        android:orientation="vertical">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="10"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/catalogue_search_bar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="Search"
+                android:inputType="text"
+                android:drawableStart="@drawable/ic_baseline_search_24"
+                android:layout_weight="9"/>
+
+            <ImageView
+                android:id="@+id/catalogue_microphone_image"
+                android:padding="8dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_mic_24"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/catalogue_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"/>
+
+    </LinearLayout>
+
+
 
 </LinearLayout>

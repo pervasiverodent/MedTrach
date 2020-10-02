@@ -18,18 +18,9 @@
         android:textColor="@color/colorBlack"
         />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Upload Image Drug"
-        android:fontFamily="sans-serif-condensed"
-        android:textColor="@color/colorBlack"
-        android:textSize="18sp"
-        android:layout_marginBottom="8dp"
-        android:drawableStart="@drawable/ic_menu_camera"
-        android:drawablePadding="8dp"/>
 
     <EditText
+        android:id="@+id/add_drug_drug_name_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed"
@@ -38,6 +29,7 @@
         android:drawableStart="@drawable/ic_baseline_keyboard_arrow_right_24"/>
 
     <EditText
+        android:id="@+id/add_drug_description_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed"
@@ -48,6 +40,7 @@
         android:drawableStart="@drawable/ic_baseline_description_24"/>
 
     <EditText
+        android:id="@+id/add_drug_pharmacy_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed"
@@ -56,6 +49,7 @@
         android:hint="Pharmacy"/>
 
     <Button
+        android:id="@+id/add_drug_submit_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/colorWhite"

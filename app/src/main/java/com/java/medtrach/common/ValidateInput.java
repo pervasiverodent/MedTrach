@@ -32,6 +32,14 @@ public class ValidateInput {
         confirmPassword = myConfirmPassword;
     }
 
+    /**
+     * AddDrugActivity.class
+     */
+
+    /**
+     * AddPharmacyActivity.class
+     */
+
     public boolean validateEmail() {
         emailInput = email.getText().toString().trim();
 
