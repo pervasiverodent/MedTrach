@@ -1,7 +1,7 @@
 package com.java.medtrach.model;
 
 public class DrugModel {
-    String drugId, drugName, drugDescription;
+    String drugId, drugName, pharmacyName, pharmacyLocation;
 
     public DrugModel() {
     }
@@ -22,11 +22,19 @@ public class DrugModel {
         this.drugName = drugName;
     }
 
-    public String getDrugDescription() {
-        return drugDescription;
+    public String getPharmacyName() {
+        return pharmacyName;
     }
 
-    public void setDrugDescription(String drugDescription) {
-        this.drugDescription = drugDescription;
+    public void setPharmacyName(String pharmacyName) {
+        this.pharmacyName = pharmacyName;
+    }
+
+    public String getPharmacyLocation() {
+        return pharmacyLocation;
+    }
+
+    public void setPharmacyLocation(String pharmacyLocation) {
+        this.pharmacyLocation = pharmacyLocation;
     }
 }

@@ -1,18 +1,29 @@
 package com.java.medtrach.ui.catalogue;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.speech.RecognitionListener;
+import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,11 +40,18 @@ import com.java.medtrach.R;
 import com.java.medtrach.common.Common;
 import com.java.medtrach.model.DrugModel;
 
+import java.util.ArrayList;
+import java.util.Locale;
+
 public class CatalogueFragment extends Fragment {
 
     private Button addPharmacyButton, addDrugButton;
     private EditText searchBarEditText;
     private ImageView microphoneButton;
+
+    private SpeechRecognizer speechRecognizer;
+    public static final Integer RecordAudioRequestCode = 1;
+
     private RecyclerView.LayoutManager layoutManager;
     private View view;
     private RecyclerView recyclerView;
@@ -44,8 +62,11 @@ public class CatalogueFragment extends Fragment {
 
     private DrugModel drugModel;
 
+    @SuppressLint("ClickableViewAccessibility")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+
 
         View root = inflater.inflate(R.layout.fragment_catalogue, container, false);
 
@@ -53,6 +74,91 @@ public class CatalogueFragment extends Fragment {
         addDrugButton = root.findViewById(R.id.add_drugs_button);
         searchBarEditText = root.findViewById(R.id.catalogue_search_bar);
         microphoneButton = root.findViewById(R.id.catalogue_microphone_image);
+
+        if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED){
+            checkPermission();
+        }
+
+        speechRecognizer = SpeechRecognizer.createSpeechRecognizer(getContext());
+
+        final Intent speechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+
+        speechRecognizer.setRecognitionListener(new RecognitionListener() {
+            @Override
+            public void onReadyForSpeech(Bundle bundle) {
+
+            }
+
+            @Override
+            public void onBeginningOfSpeech() {
+                searchBarEditText.setText("Listening...");
+            }
+
+            @Override
+            public void onRmsChanged(float v) {
+
+            }
+
+            @Override
+            public void onBufferReceived(byte[] bytes) {
+
+            }
+
+            @Override
+            public void onEndOfSpeech() {
+
+            }
+
+            @Override
+            public void onError(int i) {
+
+            }
+
+            @Override
+            public void onResults(Bundle bundle) {
+                microphoneButton.setImageResource(R.drawable.ic_baseline_mic_24);
+                ArrayList<String> data = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+                searchBarEditText.setText(data.get(0).toUpperCase());
+
+//                String str = "font roboto regular";
+//                String[] strArray = str.split(" ");
+//                StringBuilder builder = new StringBuilder();
+//                for (String s : strArray) {
+//                    String cap = s.substring(0, 1).toUpperCase() + s.substring(1);
+//                    builder.append(cap + " ");
+//                }
+//                TextView textView = (TextView) findViewById(R.id.textView);
+//                textView.setText(builder.toString());
+            }
+
+            @Override
+            public void onPartialResults(Bundle bundle) {
+
+            }
+
+            @Override
+            public void onEvent(int i, Bundle bundle) {
+
+            }
+        });
+
+        microphoneButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                Toast.makeText(getContext(), "TESTING MIC!!!", Toast.LENGTH_SHORT).show();
+
+                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    speechRecognizer.stopListening();
+                }
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+                    microphoneButton.setImageResource(R.drawable.ic_baseline_map_24);
+                    speechRecognizer.startListening(speechRecognizerIntent);
+                }
+                return false;
+            }
+        });
 
         drugModel = new DrugModel();
 
@@ -104,6 +210,7 @@ public class CatalogueFragment extends Fragment {
         return root;
     }
 
+
     private void loadData(String data) {
         Query query = drugReference.orderByChild("drugName").startAt(data).endAt(data + "\uf8ff");
 
@@ -114,10 +221,25 @@ public class CatalogueFragment extends Fragment {
         adapter = new FirebaseRecyclerAdapter<DrugModel, CatalogueViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull CatalogueViewHolder holder, int position, @NonNull DrugModel model) {
-                holder.drugName.setText(drugModel.getDrugName());
+                final String myDrugName = model.getDrugName();
+                final String myPharmacyName = model.getPharmacyName();
+                final String myPharmacyLocation = model.getPharmacyLocation();
 
-                // Open MapsActivity.class
-                getContext().startActivity(new Intent(getContext(), MapsActivity.class));
+                holder.drugName.setText(myDrugName);
+                holder.pharmacyName.setText(myPharmacyName);
+                holder.pharmacyLocation.setText(myPharmacyLocation);
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+//                        Intent intent = new Intent(getContext(), MapsActivity.class);
+//                        startActivity(intent);
+
+                        // Open MapsActivity.class
+                        getContext().startActivity(new Intent(getContext(), MapsActivity.class));
+                    }
+                });
+
             }
 
             @NonNull
@@ -130,6 +252,21 @@ public class CatalogueFragment extends Fragment {
 
         adapter.startListening();
         recyclerView.setAdapter(adapter);
+    }
+
+    private void checkPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.RECORD_AUDIO},RecordAudioRequestCode);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == RecordAudioRequestCode && grantResults.length > 0 ){
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                Toast.makeText(getContext(),"Permission Granted", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

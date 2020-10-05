@@ -10,7 +10,7 @@ import com.java.medtrach.R;
 
 public class CatalogueViewHolder extends RecyclerView.ViewHolder {
 
-    TextView drugName, drugDescription, pharmacyName, pharmacyLocation;
+    TextView drugName, pharmacyName, pharmacyLocation;
 
     public CatalogueViewHolder(@NonNull View itemView) {
         super(itemView);

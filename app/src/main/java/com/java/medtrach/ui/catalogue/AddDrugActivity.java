@@ -21,14 +21,14 @@ import com.java.medtrach.model.DrugModel;
 
 public class AddDrugActivity extends AppCompatActivity {
 
-    private String drugName, drugDescription, drugPharmacy;
+    private String drugName, drugDescription, drugPharmacyName, drugPharmacyLocation;
     private DatabaseReference drugReference;
     private FirebaseDatabase mDatabase;
     
     ValidateDrugInput validateDrugInput;
     DrugModel drugModel;
 
-    EditText drugNameEditText, drugDescriptionEditText, drugPharmacyEditText;
+    EditText drugNameEditText, drugDescriptionEditText, drugPharmacyNameEditText, drugPharmacyLocationEditText;
     Button submitButton;
 
     @Override
@@ -51,7 +51,8 @@ public class AddDrugActivity extends AppCompatActivity {
     private void initializeContent() {
         drugNameEditText = findViewById(R.id.add_drug_drug_name_edit_text);
         drugDescriptionEditText = findViewById(R.id.add_drug_description_edit_text);
-        drugPharmacyEditText = findViewById(R.id.add_drug_pharmacy_edit_text);
+        drugPharmacyNameEditText = findViewById(R.id.add_drug_pharmacy_name_edit_text);
+        drugPharmacyLocationEditText = findViewById(R.id.add_drug_pharmacy_location_edit_text);
         submitButton = findViewById(R.id.add_drug_submit_button);
 
         drugReference = FirebaseDatabase.getInstance().getReference().child(Common.DRUG_REF);
@@ -62,17 +63,19 @@ public class AddDrugActivity extends AppCompatActivity {
 
         drugName = drugNameEditText.getText().toString().trim();
         drugDescription = drugDescriptionEditText.getText().toString().trim();
-        drugPharmacy = drugPharmacyEditText.getText().toString().trim();
-        
+        drugPharmacyName = drugPharmacyNameEditText.getText().toString().trim();
+        drugPharmacyLocation = drugPharmacyLocationEditText.getText().toString().trim();
+
         boolean drugNameVerified = validateDrugInput.validateDrugName();
-        boolean drugDescriptionVerified = validateDrugInput.validateDrugDescription();
         
-        if(drugNameVerified && drugDescriptionVerified) {
+        if(drugNameVerified) {
             drugModel = new DrugModel();
 
             drugModel.setDrugId(drugId);
             drugModel.setDrugName(drugName);
-            drugModel.setDrugDescription(drugDescription);
+            drugModel.setPharmacyName(drugPharmacyName);
+            drugModel.setPharmacyLocation(drugPharmacyLocation);
+//            drugModel.setDrugDescription(drugDescription);
 
             drugReference.child(drugId).setValue(drugModel)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {

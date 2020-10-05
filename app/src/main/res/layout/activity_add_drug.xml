@@ -40,13 +40,22 @@
         android:drawableStart="@drawable/ic_baseline_description_24"/>
 
     <EditText
-        android:id="@+id/add_drug_pharmacy_edit_text"
+        android:id="@+id/add_drug_pharmacy_name_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed"
         android:textColor="@color/colorBlack"
         android:drawableStart="@drawable/ic_baseline_store_24"
-        android:hint="Pharmacy"/>
+        android:hint="Pharmacy Name"/>
+
+    <EditText
+        android:id="@+id/add_drug_pharmacy_location_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed"
+        android:textColor="@color/colorBlack"
+        android:drawableStart="@drawable/ic_baseline_location_on_24"
+        android:hint="Pharmacy Location"/>
 
     <Button
         android:id="@+id/add_drug_submit_button"

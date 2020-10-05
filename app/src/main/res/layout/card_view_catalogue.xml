@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
@@ -11,9 +11,9 @@
         android:layout_width="match_parent"
         app:cardElevation="5dp"
         app:cardUseCompatPadding="true"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="4dp"
         android:layout_marginStart="8dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="4dp"
         android:layout_marginEnd="8dp"
         android:padding="8dp"
         app:cardCornerRadius="8dp">
@@ -32,8 +32,8 @@
                 android:textStyle="bold"
                 android:fontFamily="sans-serif-condensed-light"
                 android:textSize="15sp"
+                android:drawableStart="@drawable/ic_baseline_keyboard_arrow_right_24"
                 android:layout_marginBottom="4dp"/>
-
 
             <TextView
                 android:id="@+id/drug_pharmacy_name"
@@ -41,6 +41,7 @@
                 android:layout_height="wrap_content"
                 android:text="Pharmacy Name"
                 android:fontFamily="sans-serif"
+                android:drawableStart="@drawable/ic_baseline_store_24"
                 />
 
             <TextView
@@ -49,6 +50,7 @@
                 android:layout_height="wrap_content"
                 android:text="Pharmacy Location"
                 android:fontFamily="sans-serif"
+                android:drawableStart="@drawable/ic_baseline_location_on_24"
                 />
 
         </LinearLayout>

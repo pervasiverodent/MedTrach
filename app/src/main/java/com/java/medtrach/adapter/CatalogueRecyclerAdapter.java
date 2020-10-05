@@ -1,4 +1,4 @@
-package com.java.medtrach.Adapter;
+package com.java.medtrach.adapter;
 
 import android.view.View;
 import android.view.ViewGroup;
