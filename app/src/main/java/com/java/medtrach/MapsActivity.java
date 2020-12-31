@@ -1,7 +1,9 @@
 package com.java.medtrach;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
@@ -10,280 +12,208 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
+import com.directions.route.AbstractRouting;
+import com.directions.route.Route;
+import com.directions.route.RouteException;
+import com.directions.route.Routing;
+import com.directions.route.RoutingListener;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.net.PlacesClient;
-import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
-import com.java.medtrach.model.PharmacyModel;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionDeniedResponse;
-import com.karumi.dexter.listener.PermissionGrantedResponse;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.single.PermissionListener;
+import com.google.android.material.snackbar.Snackbar;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.disposables.CompositeDisposable;
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
+        GoogleApiClient.OnConnectionFailedListener, RoutingListener {
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
-
+    private static final String TAG = "MapsActivity.java";
     private GoogleMap mMap;
-    private FusedLocationProviderClient fusedLocationProviderClient;
-    private LocationRequest locationRequest;
-    private LocationCallback locationCallback;
-
-    private Marker shipperMarker;
-    private PharmacyModel pharmacyModel; //ShipperModel
-    private Handler handler;
-    private int index, next;
-    private LatLng start, end;
-    private float v;
-    private double lat, lng;
-    private Polyline blackPolyline, greyPolyline, yellowPolyline, redPolyline;
-    private PolylineOptions polylineOptions, blackPolylineOptions;
-    private List<LatLng> polylineList;
-    private IGoogleAPI iGoogleAPI;
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
-
-    AutocompleteSupportFragment autocompleteSupportFragment;
-    PlacesClient placesClient;
-
-    List<Place.Field> placeFields = Arrays.asList(Place.Field.ID,
-            Place.Field.NAME,
-            Place.Field.ADDRESS,
-            Place.Field.LAT_LNG);
 
     Location myLocation = null;
     Location destinationLocation = null;
 
-//
-//    //declare this
-//    private FusedLocationProviderClient mFusedLocationProviderClient;
-//
-//
-////in onCreate of your activity
-//// Construct a FusedLocationProviderClient.
-//    mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-//
-//
-//
-//
-//    private void getDeviceLocation() {
-//        /*
-//         * Get the best and most recent location of the device, which may be null in rare
-//         * cases when a location is not available.
-//         */
-//        try {
-//            if (mLocationPermissionGranted)//variable that stores the status if location permission is granted or not
-//            {
-//                Task<Location> locationResult = mFusedLocationProviderClient.getLastLocation();
-//                locationResult.addOnCompleteListener(this, new OnCompleteListener<Location>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<Location> task) {
-//                        if (task.isSuccessful()) {
-//                            // Set the map's camera position to the current location of the device.
-//                            mLastKnownLocation = task.getResult();
-//                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-//                                    new LatLng(mLastKnownLocation.getLatitude(),
-//                                            mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
-//                            //add a marker if required
-//                        } else {
-//                            Log.d(TAG, "Current location is null. Using defaults.");
-//                            Log.e(TAG, "Exception: %s", task.getException());
-//                            mMap.moveCamera(CameraUpdateFactory
-//                                    .newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
-//                        }
-//                    }
-//                });
-//            }
-//        } catch (SecurityException e) {
-//            Log.e("Exception: %s", e.getMessage());
-//        }
-//
-//    }
-//
-    private final static int LOCATION_REQUEST_CODE = 23;
-    boolean locationPermission = false;
+    protected LatLng start = null;
+    protected LatLng end = null;
 
     private List<Polyline> polylines = null;
 
+    boolean locationPermission=false;
+    private final static int LOCATION_REQUEST_CODE = 23;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+
+        requestPermissions();
+
+        SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        supportMapFragment.getMapAsync(this);
+    }
 
-        //buildLocationRequest();
-        //buildLocationCallback();
+    private void requestPermissions() {
+        if(ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                    LOCATION_REQUEST_CODE);
+        }
+        else{
+            locationPermission=true;
+        }
+    }
 
-        Dexter.withActivity(this)
-                .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-                .withListener(new PermissionListener() {
-                    @Override
-                    public void onPermissionGranted(PermissionGrantedResponse response) {
-                        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                                .findFragmentById(R.id.map);
-                        mapFragment.getMapAsync(MapsActivity.this::onMapReady);
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case LOCATION_REQUEST_CODE: {
+                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    locationPermission = true;
+                    getMyLocation();
+                } else {
+                    Toast.makeText(this, "Permission Denied.", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+        }
+    }
 
-                        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(MapsActivity.this);
-                        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
-                    }
+    private void getMyLocation() {
+        mMap.setMyLocationEnabled(true);
+        mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
 
-                    @Override
-                    public void onPermissionDenied(PermissionDeniedResponse response) {
+            @Override
+            public void onMyLocationChange(Location location) {
+                myLocation = location;
+                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(
+                        latLng, 16f);
 
-                    }
+                mMap.animateCamera(cameraUpdate);
+            }
+        });
 
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
 
-                    }
-                });
+                end=latLng;
+
+                mMap.clear();
+
+                start=new LatLng(myLocation.getLatitude(),myLocation.getLongitude());
+                //start route finding
+                findRoutes(start,end);
+            }
+        });
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        setShippingOrder();
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(16, 120);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        if(locationPermission) {
+            getMyLocation();
+        }
     }
 
-    private void setShippingOrder() {
-        String data;
-
-        drawRoutes();
+    public void findRoutes(LatLng Start, LatLng End) {
+        if(Start == null || End == null) {
+            Toast.makeText(this, "Unable to get to location.", Toast.LENGTH_SHORT).show();
+        } else {
+            Routing routing = new Routing.Builder()
+                    .travelMode(AbstractRouting.TravelMode.DRIVING)
+                    .withListener(this)
+                    .alternativeRoutes(true)
+                    .waypoints(Start, End)
+                    .key("AIzaSyBl5MEJvaKveEKEo_-Js_8PolRKXIm0-vM")
+                    .build();
+            routing.execute();
+        }
     }
-
-
-    private void setupAutocompletePlaces() {
-        places_fragment = (AutocompleteSupportFragment)getSupportFragmentManager()
-                .findFragmentById(R.id.places_autocomplete_fragment);
-        places_fragment.setPlaceFields(placeFields);
-        places_fragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(@NonNull Place place) {
-                drawRoutes(place);
-            }
-
-            @Override
-            public void onError(@NonNull Status status) {
-                Toast.makeText(ShippingActivity.this, "" + status.getStatusMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void buildLocationCallback() {
-        locationCallback = new LocationCallback() {
-            @Override
-            public void onLocationResult(LocationResult locationResult) {
-                super.onLocationResult(locationResult);
-                //Marker
-                LatLng locationShipper = new LatLng(locationResult.getLastLocation().getLatitude(),
-                        locationResult.getLastLocation().getLongitude());
-
-                updateLocation(locationResult.getLastLocation());
-
-                if(shipperMarker == null) {
-                    //Inflate drawable
-                    int height, width;
-                    height = width = 80;
-
-                    BitmapDrawable bitmapDrawable = (BitmapDrawable) ContextCompat.getDrawable(ShippingActivity.this, R.drawable.shipper);
-                    Bitmap resized = Bitmap.createScaledBitmap(bitmapDrawable.getBitmap(), width, height, false);
-
-                    shipperMarker = mMap.addMarker(new MarkerOptions()
-                            .icon(BitmapDescriptorFactory.fromBitmap(resized))
-                            .position(locationShipper).title("You"));
-
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(locationShipper, 18));
-
-                }
-
-                if(isInit && previousLocation != null) {
-                    String from = new StringBuilder()
-                            .append(previousLocation.getLatitude())
-                            .append(",")
-                            .append(previousLocation.getLongitude())
-                            .toString();
-
-                    String to = new StringBuilder()
-                            .append(locationShipper.latitude)
-                            .append(",")
-                            .append(locationShipper.longitude)
-                            .toString();
-
-                    moveMarkerAnimation(shipperMarker, from, to);
-
-                    previousLocation = locationResult.getLastLocation();
-                }
-
-                if(!isInit) {
-                    isInit = true;
-                    previousLocation = locationResult.getLastLocation();
-                }
-            }
-        };
-    }
-
-    private void drawRoutes(Place place) {
-        mMap.addMarker(new MarkerOptions()
-        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
-        .title(place.getName())
-        .snippet(place.getAddress())
-        .position(place.getLatLng())); // Add destination marker
-
-//        fusedLocationProviderClient.getLastLocation()
-
-    }
-
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
+    public void onRoutingFailure(RouteException e) {
+        Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
 
     }
 
-    private void getMyLocation() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
+    @Override
+    public void onRoutingStart() {
+        Toast.makeText(this, "Finding route.", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRoutingSuccess(ArrayList<Route> route, int shortestRouteIndex) {
+        CameraUpdate center = CameraUpdateFactory.newLatLng(start);
+        CameraUpdate zoom = CameraUpdateFactory.zoomTo(16);
+        if(polylines!=null) {
+            polylines.clear();
         }
-        mMap.setMyLocationEnabled(true);
-        mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
-            @Override
-            public void onMyLocationChange(Location location) {
+        PolylineOptions polyOptions = new PolylineOptions();
+        LatLng polylineStartLatLng=null;
+        LatLng polylineEndLatLng=null;
+
+
+        polylines = new ArrayList<>();
+        //add route(s) to the map using polyline
+        for (int i = 0; i <route.size(); i++) {
+
+            if(i==shortestRouteIndex)
+            {
+                polyOptions.color(getResources().getColor(R.color.colorPrimary));
+                polyOptions.width(14);
+                polyOptions.addAll(route.get(shortestRouteIndex).getPoints());
+                Polyline polyline = mMap.addPolyline(polyOptions);
+                polylineStartLatLng=polyline.getPoints().get(0);
+                int k=polyline.getPoints().size();
+                polylineEndLatLng=polyline.getPoints().get(k-1);
+                polylines.add(polyline);
 
             }
-        });
+            else {
+
+            }
+        }
+
+        //Add Marker on route starting position
+        MarkerOptions startMarker = new MarkerOptions();
+        startMarker.position(polylineStartLatLng);
+        startMarker.title("My Location");
+        mMap.addMarker(startMarker);
+
+        //Add Marker on route ending position
+        MarkerOptions endMarker = new MarkerOptions();
+        endMarker.position(polylineEndLatLng);
+        endMarker.title("Destination");
+        mMap.addMarker(endMarker);
+
     }
+
+    @Override
+    public void onRoutingCancelled() {
+        findRoutes(start,end);
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        findRoutes(start,end);
+    }
+
 }
