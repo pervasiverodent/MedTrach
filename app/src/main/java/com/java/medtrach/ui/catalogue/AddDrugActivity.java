@@ -3,7 +3,9 @@ package com.java.medtrach.ui.catalogue;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,7 +25,9 @@ public class AddDrugActivity extends AppCompatActivity {
 
     private DatabaseReference drugReference, pharmacyReference, catalogueReference;
     private FirebaseDatabase mDatabase;
-    
+
+    String pharmacyId;
+
     ValidateDrugInput validateDrugInput;
     DrugModel drugModel;
 
@@ -32,9 +36,14 @@ public class AddDrugActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        final String TAG = "AddDrugActivity";
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_drug);
         initializeContent();
+
+        Intent intent = getIntent();
+        pharmacyId = intent.getStringExtra("pharmacyId");
+        Log.d(TAG, "Pharmacy ID: " + pharmacyId);
 
         validateDrugInput = new ValidateDrugInput(
                 AddDrugActivity.this, drugNameEditText, drugDescriptionEditText
@@ -71,7 +80,7 @@ public class AddDrugActivity extends AppCompatActivity {
             drugModel.setDrugName(drugName);
             drugModel.setDrugDescription(drugDescription);
 
-            drugReference.child(drugId).setValue(drugModel)
+            pharmacyReference.child(pharmacyId).child(Common.DRUG_REF).child(drugId).setValue(drugModel)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.catalogue.PharmacyActivity">
+    tools:context=".ui.pharmacy.PharmacyDetailedActivity">
 
     <Button
         android:id="@+id/add_drugs_button"
@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:background="@color/colorBlack"
         android:textColor="@color/colorWhite"
-        android:text="Add Drugs"
+        android:text="@string/add_drugs"
         android:textStyle="bold"
         android:layout_marginBottom="4dp"/>
 
@@ -36,8 +36,8 @@
             android:textStyle="bold"
             android:fontFamily="sans-serif-condensed-light"
             android:textSize="15sp"
-            android:drawableStart="@drawable/ic_baseline_keyboard_arrow_right_24"
-            android:layout_marginBottom="4dp"/>
+            android:layout_marginBottom="4dp"
+            app:drawableStartCompat="@drawable/ic_baseline_keyboard_arrow_right_24" />
 
         <TextView
             android:id="@+id/pharmacy_detailed_location_text_view"
@@ -45,8 +45,7 @@
             android:layout_height="wrap_content"
             android:text="@string/pharmacy_location"
             android:fontFamily="sans-serif"
-            android:drawableStart="@drawable/ic_baseline_location_on_24"
-            />
+            app:drawableStartCompat="@drawable/ic_baseline_location_on_24" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

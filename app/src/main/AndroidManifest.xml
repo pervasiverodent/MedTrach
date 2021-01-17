@@ -21,7 +21,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".ui.catalogue.PharmacyActivity"></activity>
+        <activity android:name=".ui.pharmacy.PharmacyDetailedActivity"></activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -33,7 +33,7 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".ui.catalogue.AddPharmacyActivity" />
+        <activity android:name=".ui.pharmacy.AddPharmacyActivity" />
         <activity android:name=".ui.catalogue.AddDrugActivity" />
         <activity
             android:name=".HomeActivity"

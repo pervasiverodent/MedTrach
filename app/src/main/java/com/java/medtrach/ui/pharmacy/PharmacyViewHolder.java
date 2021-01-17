@@ -1,4 +1,4 @@
-package com.java.medtrach.ui.catalogue;
+package com.java.medtrach.ui.pharmacy;
 
 import android.view.View;
 import android.widget.TextView;

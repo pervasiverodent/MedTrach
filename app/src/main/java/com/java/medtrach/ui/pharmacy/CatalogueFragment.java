@@ -1,4 +1,4 @@
-package com.java.medtrach.ui.catalogue;
+package com.java.medtrach.ui.pharmacy;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -11,6 +11,7 @@ import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,8 +33,6 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.java.medtrach.HomeActivity;
-import com.java.medtrach.MapsActivity;
 import com.java.medtrach.R;
 import com.java.medtrach.common.Common;
 import com.java.medtrach.model.DrugModel;
@@ -45,6 +44,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class CatalogueFragment extends Fragment {
+    final String TAG = "CatalogueFragment";
 
     private Button addPharmacyButton, addDrugButton;
     private EditText searchBarEditText;
@@ -216,6 +216,7 @@ public class CatalogueFragment extends Fragment {
 
             @Override
             protected void onBindViewHolder(@NonNull PharmacyViewHolder holder, int position, @NonNull PharmacyModel model) {
+
                 final String myPharmacyId = model.getPharmacyId();
                 final String myPharmacyName = model.getPharmacyName();
                 final String myPharmacyLocation = model.getPharmacyLocation();
@@ -226,10 +227,16 @@ public class CatalogueFragment extends Fragment {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(getActivity(), PharmacyActivity.class);
-                        intent.putExtra("pharmacyId", myPharmacyId);
-                        Toast.makeText(getContext(), myPharmacyId, Toast.LENGTH_SHORT).show();
-                        startActivity(intent);
+                        Intent intent = new Intent(getActivity(), PharmacyDetailedActivity.class);
+
+                        try {
+                            intent.putExtra("pharmacyId", myPharmacyId);
+                            Log.d(TAG, "Pharmacy ID: " + myPharmacyId);
+
+                            startActivity(intent);
+                        } catch (NullPointerException e) {
+                            Toast.makeText(getContext(), "E: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
             }
