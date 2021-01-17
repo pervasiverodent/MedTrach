@@ -20,6 +20,7 @@ import com.java.medtrach.R;
 import com.java.medtrach.common.Common;
 import com.java.medtrach.ui.catalogue.AddDrugActivity;
 
+//TODO Create RecyclerView list adapter.
 public class PharmacyDetailedActivity extends AppCompatActivity {
     final String TAG = "PharmacyDetailedActivity";
 
@@ -49,15 +50,14 @@ public class PharmacyDetailedActivity extends AppCompatActivity {
         fromPharmacyId = intent.getStringExtra("pharmacyId");
 
         // Retrieve pharmacyId as look up field for Database.
-
         pharmacyReference.child(fromPharmacyId).addListenerForSingleValueEvent(new ValueEventListener() {
             final String TAG = "testing";
 
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String pharmacyId = snapshot.child("pharmacyId").getValue().toString();
-                String pharmacyName = snapshot.child("pharmacyName").getValue().toString();
-                String pharmacyLocation = snapshot.child("pharmacyLocation").getValue().toString();
+                final String pharmacyId = snapshot.child("pharmacyId").getValue().toString();
+                final String pharmacyName = snapshot.child("pharmacyName").getValue().toString();
+                final String pharmacyLocation = snapshot.child("pharmacyLocation").getValue().toString();
 
                 Log.d(TAG, "From Firebase Database");
                 Log.d(TAG, "ID: " + pharmacyId);
@@ -85,6 +85,7 @@ public class PharmacyDetailedActivity extends AppCompatActivity {
                 Toast.makeText(PharmacyDetailedActivity.this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
 
 
 

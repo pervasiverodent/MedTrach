@@ -92,6 +92,21 @@ public class AddDrugActivity extends AppCompatActivity {
                     Toast.makeText(AddDrugActivity.this, "Failed to add entry.", Toast.LENGTH_SHORT).show();
                 }
             });
+
+//            // Creates a stored copy of the Database.
+//            drugReference.child(drugId).setValue(drugModel)
+//                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                        @Override
+//                        public void onSuccess(Void aVoid) {
+//                            Log.d("submitToFirebase", "Success");
+//                        }
+//                    })
+//            .addOnFailureListener(new OnFailureListener() {
+//                @Override
+//                public void onFailure(@NonNull Exception e) {
+//                    Log.d("submitToFirebase", e.getMessage());
+//                }
+//            });
         } else {
             Toast.makeText(this, "Fields cannot be empty.", Toast.LENGTH_SHORT).show();
         }
