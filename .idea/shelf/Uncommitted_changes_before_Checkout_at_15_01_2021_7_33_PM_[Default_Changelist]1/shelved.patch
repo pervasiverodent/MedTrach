@@ -1,0 +1,587 @@
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>apply plugin: 'com.android.application'\r\napply plugin: 'com.google.gms.google-services'\r\n\r\nandroid {\r\n    compileSdkVersion 29\r\n\r\n    defaultConfig {\r\n        applicationId \"com.java.medtrach\"\r\n        minSdkVersion 23\r\n        targetSdkVersion 29\r\n        versionCode 1\r\n        versionName \"1.0\"\r\n\r\n        testInstrumentationRunner \"androidx.test.runner.AndroidJUnitRunner\"\r\n    }\r\n\r\n    buildTypes {\r\n        release {\r\n            minifyEnabled false\r\n            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'\r\n        }\r\n    }\r\n    compileOptions {\r\n        sourceCompatibility JavaVersion.VERSION_1_8\r\n        targetCompatibility JavaVersion.VERSION_1_8\r\n    }\r\n}\r\n\r\ndependencies {\r\n    implementation fileTree(dir: \"libs\", include: [\"*.jar\"])\r\n    implementation 'androidx.appcompat:appcompat:1.2.0'\r\n    implementation 'com.google.android.material:material:1.2.1'\r\n    implementation 'androidx.legacy:legacy-support-v4:1.0.0'\r\n    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'\r\n    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'\r\n    implementation 'androidx.navigation:navigation-fragment:2.3.2'\r\n    implementation 'androidx.navigation:navigation-ui:2.3.2'\r\n    implementation 'org.apache.commons:commons-lang3:3.4'\r\n\r\n    // Firebase Libraries\r\n    implementation 'com.google.firebase:firebase-auth:20.0.1'\r\n    implementation 'com.google.firebase:firebase-database:19.6.0'\r\n    implementation 'com.google.firebase:firebase-analytics:18.0.0'\r\n    implementation 'com.firebaseui:firebase-ui-database:6.3.0'\r\n\r\n    // Google Maps & Places Libraries\r\n    implementation 'com.google.android.gms:play-services-maps:17.0.0'\r\n    implementation 'com.google.android.gms:play-services-location:17.1.0'\r\n    implementation 'com.google.android.libraries.places:places:2.4.0'\r\n    implementation 'com.github.jd-alexander:library:1.1.0'\r\n\r\n//    //RxJava\r\n//    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'\r\n//    implementation 'io.reactivex.rxjava2:rxjava:2.2.9'\r\n//    implementation 'com.github.d-max:spots-dialog:1.1@aar'\r\n//    implementation 'androidx.room:room-rxjava2:2.2.6'\r\n//    annotationProcessor 'androidx.room:room-compiler:2.2.6'\r\n\r\n//    //Dexter\r\n//    implementation 'com.karumi:dexter:5.0.0'\r\n\r\n    //Paper\r\n    implementation 'io.paperdb:paperdb:2.6'\r\n\r\n    implementation 'com.asksira.android:loopingviewpager:1.1.4'\r\n    implementation 'com.github.bumptech.glide:glide:4.9.0'\r\n    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'\r\n    implementation 'de.hdodenhof:circleimageview:3.1.0'\r\n\r\n    implementation 'org.greenrobot:eventbus:3.1.1'\r\n    implementation 'com.github.andremion:counterfab:1.2.0'\r\n    implementation 'com.cepheuen.elegant-number-button:lib:1.0.2'\r\n\r\n    testImplementation 'junit:junit:4.13.1'\r\n    androidTestImplementation 'androidx.test.ext:junit:1.1.2'\r\n    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/build.gradle	(revision ab3f86221150c8fccba5236bcacd99a8ed19cc8b)
++++ app/build.gradle	(date 1610707479318)
+@@ -38,9 +38,9 @@
+     implementation 'org.apache.commons:commons-lang3:3.4'
+ 
+     // Firebase Libraries
+-    implementation 'com.google.firebase:firebase-auth:20.0.1'
++    implementation 'com.google.firebase:firebase-auth:20.0.2'
+     implementation 'com.google.firebase:firebase-database:19.6.0'
+-    implementation 'com.google.firebase:firebase-analytics:18.0.0'
++    implementation 'com.google.firebase:firebase-analytics:18.0.1'
+     implementation 'com.firebaseui:firebase-ui-database:6.3.0'
+ 
+     // Google Maps & Places Libraries
+@@ -49,15 +49,33 @@
+     implementation 'com.google.android.libraries.places:places:2.4.0'
+     implementation 'com.github.jd-alexander:library:1.1.0'
+ 
+-//    //RxJava
+-//    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+-//    implementation 'io.reactivex.rxjava2:rxjava:2.2.9'
+-//    implementation 'com.github.d-max:spots-dialog:1.1@aar'
+-//    implementation 'androidx.room:room-rxjava2:2.2.6'
+-//    annotationProcessor 'androidx.room:room-compiler:2.2.6'
++    //Retrofit 2
++    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.1'
++    implementation 'com.squareup.retrofit2:converter-gson:2.6.1'
++
++    //LVP
++    implementation 'com.asksira.android:loopingviewpager:1.1.4'
+ 
+-//    //Dexter
+-//    implementation 'com.karumi:dexter:5.0.0'
++    //Glide
++    implementation 'com.github.bumptech.glide:glide:4.9.0'
++    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
++
++    //CircleImageView
++    implementation 'de.hdodenhof:circleimageview:3.1.0'
++
++    //Butterknife
++    implementation 'com.jakewharton:butterknife:10.1.0'
++    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
++
++    //RxJava
++    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
++    implementation 'io.reactivex.rxjava2:rxjava:2.2.9'
++    implementation 'com.github.d-max:spots-dialog:1.1@aar'
++    implementation 'androidx.room:room-rxjava2:2.2.6'
++    annotationProcessor 'androidx.room:room-compiler:2.2.6'
++
++    //Dexter
++    implementation 'com.karumi:dexter:5.0.0'
+ 
+     //Paper
+     implementation 'io.paperdb:paperdb:2.6'
+Index: app/src/main/java/com/java/medtrach/ui/drug/DrugFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.java.medtrach.ui.drug;\r\n\r\npublic class DrugFragment {\r\n}\r\n
+===================================================================
+--- app/src/main/java/com/java/medtrach/ui/drug/DrugFragment.java	(revision ab3f86221150c8fccba5236bcacd99a8ed19cc8b)
++++ app/src/main/java/com/java/medtrach/ui/drug/DrugFragment.java	(date 1610707711767)
+@@ -1,4 +1,248 @@
+-package com.java.medtrach.ui.drug;
+-
+-public class DrugFragment {
+-}
++//package com.java.medtrach.ui.pharmacy;
++//
++//import android.Manifest;
++//import android.annotation.SuppressLint;
++//import android.content.Intent;
++//import android.content.pm.PackageManager;
++//import android.os.Build;
++//import android.os.Bundle;
++//import android.speech.RecognitionListener;
++//import android.speech.RecognizerIntent;
++//import android.speech.SpeechRecognizer;
++//import android.text.Editable;
++//import android.text.TextWatcher;
++//import android.view.LayoutInflater;
++//import android.view.MotionEvent;
++//import android.view.View;
++//import android.view.ViewGroup;
++//import android.widget.Button;
++//import android.widget.EditText;
++//import android.widget.ImageView;
++//import android.widget.Toast;
++//
++//import androidx.annotation.NonNull;
++//import androidx.core.app.ActivityCompat;
++//import androidx.core.content.ContextCompat;
++//import androidx.fragment.app.Fragment;
++//import androidx.recyclerview.widget.LinearLayoutManager;
++//import androidx.recyclerview.widget.RecyclerView;
++//
++//import com.firebase.ui.database.FirebaseRecyclerAdapter;
++//import com.firebase.ui.database.FirebaseRecyclerOptions;
++//import com.google.firebase.database.DatabaseReference;
++//import com.google.firebase.database.FirebaseDatabase;
++//import com.google.firebase.database.Query;
++//import com.java.medtrach.R;
++//import com.java.medtrach.common.Common;
++//import com.java.medtrach.model.DrugModel;
++//import com.java.medtrach.model.PharmacyModel;
++//
++//import org.apache.commons.lang3.StringUtils;
++//
++//import java.util.ArrayList;
++//import java.util.Locale;
++//
++//public class PharmacyFragment extends Fragment {
++//
++//    private EditText searchBarEditText;
++//    private ImageView microphoneButton;
++//
++//    private SpeechRecognizer speechRecognizer;
++//    public static final Integer RecordAudioRequestCode = 1;
++//
++//    private RecyclerView.LayoutManager layoutManager;
++//    private View view;
++//    private RecyclerView recyclerView;
++//
++//    FirebaseRecyclerAdapter<PharmacyModel, PharmacyViewHolder> adapter;
++//    FirebaseRecyclerOptions<PharmacyModel> options;
++//    private DatabaseReference drugReference, pharmacyReference;
++//
++//    private DrugModel drugModel;
++//
++//    @SuppressLint("ClickableViewAccessibility")
++//    public View onCreateView(@NonNull LayoutInflater inflater,
++//                             ViewGroup container, Bundle savedInstanceState) {
++//
++//        View root = inflater.inflate(R.layout.fragment_catalogue, container, false);
++//
++//        searchBarEditText = root.findViewById(R.id.catalogue_search_bar);
++//        microphoneButton = root.findViewById(R.id.catalogue_microphone_image);
++//
++//        if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED){
++//            checkPermission();
++//        }
++//
++//        speechRecognizer = SpeechRecognizer.createSpeechRecognizer(getContext());
++//        final Intent speechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
++//        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
++//        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
++//
++//        speechRecognizer.setRecognitionListener(new RecognitionListener() {
++//            @Override
++//            public void onReadyForSpeech(Bundle bundle) {
++//
++//            }
++//
++//            @Override
++//            public void onBeginningOfSpeech() {
++//                searchBarEditText.setText("Listening...");
++//            }
++//
++//            @Override
++//            public void onRmsChanged(float v) {
++//
++//            }
++//
++//            @Override
++//            public void onBufferReceived(byte[] bytes) {
++//
++//            }
++//
++//            @Override
++//            public void onEndOfSpeech() {
++//
++//            }
++//
++//            @Override
++//            public void onError(int i) {
++//
++//            }
++//
++//            @Override
++//            public void onResults(Bundle bundle) {
++//                microphoneButton.setImageResource(R.drawable.ic_baseline_mic_24);
++//                ArrayList<String> data = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
++//                searchBarEditText.setText(StringUtils.capitalize(data.get(0)));
++//            }
++//
++//            @Override
++//            public void onPartialResults(Bundle bundle) {
++//
++//            }
++//
++//            @Override
++//            public void onEvent(int i, Bundle bundle) {
++//
++//            }
++//        });
++//        microphoneButton.setOnTouchListener(new View.OnTouchListener() {
++//            @Override
++//            public boolean onTouch(View view, MotionEvent motionEvent) {
++//                Toast.makeText(getContext(), "TESTING MIC!!!", Toast.LENGTH_SHORT).show();
++//
++//                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
++//                    speechRecognizer.stopListening();
++//                }
++//                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN){
++//                    microphoneButton.setImageResource(R.drawable.ic_baseline_map_24);
++//                    speechRecognizer.startListening(speechRecognizerIntent);
++//                }
++//                return false;
++//            }
++//        });
++//
++//        drugModel = new DrugModel();
++//
++//        recyclerView = (RecyclerView) root.findViewById(R.id.catalogue_recycler_view);
++//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
++//        recyclerView.setHasFixedSize(true);
++//
++//        drugReference = FirebaseDatabase.getInstance().getReference().child(Common.DRUG_REF);
++//        pharmacyReference = FirebaseDatabase.getInstance().getReference().child(Common.PHARMACY_REF);
++//
++//        root.findViewById(R.id.add_pharmacy_button).setOnClickListener(new View.OnClickListener() {
++//            @Override
++//            public void onClick(View view) {
++//                Intent intent = new Intent(getContext(), AddPharmacyActivity.class);
++//                startActivity(intent);
++//            }
++//        });
++//        root.findViewById(R.id.add_drugs_button).setOnClickListener(new View.OnClickListener() {
++//            @Override
++//            public void onClick(View view) {
++//                Intent intent = new Intent(getContext(), AddDrugActivity.class);
++//                startActivity(intent);
++//            }
++//        });
++//
++//        loadData("");
++//
++//        searchBarEditText.addTextChangedListener(new TextWatcher() {
++//            @Override
++//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
++//
++//            }
++//
++//            @Override
++//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
++//
++//            }
++//
++//            @Override
++//            public void afterTextChanged(Editable editable) {
++//                if(editable.toString() != null) {
++//                    loadData(editable.toString());
++//                } else {
++//                    loadData("");
++//                }
++//            }
++//        });
++//
++//        return root;
++//    }
++//
++//    private void loadData(String data) {
++//        Query query = pharmacyReference.orderByChild("pharmacyName").startAt(data).endAt(data + "\uf8ff");
++//
++//        options = new FirebaseRecyclerOptions.Builder<PharmacyModel>()
++//                .setQuery(query, PharmacyModel.class)
++//                .build();
++//
++//        adapter = new FirebaseRecyclerAdapter<PharmacyModel, PharmacyViewHolder>(options) {
++//            @NonNull
++//            @Override
++//            public PharmacyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
++//                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_catalogue_pharmacy, parent, false);
++//                return new PharmacyViewHolder(view);
++//            }
++//
++//            @Override
++//            protected void onBindViewHolder(@NonNull PharmacyViewHolder holder, int position, @NonNull PharmacyModel model) {
++//                final String myPharmacyName = model.getPharmacyName();
++//                final String myPharmacyLocation = model.getPharmacyLocation();
++//
++//                holder.pharmacyName.setText(myPharmacyName);
++//                holder.pharmacyLocation.setText(myPharmacyLocation);
++//
++//                holder.itemView.setOnClickListener(new View.OnClickListener() {
++//                    @Override
++//                    public void onClick(View view) {
++//                        Toast.makeText(getContext(), "Testing!", Toast.LENGTH_SHORT).show();
++//                    }
++//                });
++//            }
++//        };
++//
++//        adapter.startListening();
++//        recyclerView.setAdapter(adapter);
++//        adapter.notifyDataSetChanged();
++//    }
++//
++//
++//    private void checkPermission() {
++//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
++//            ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.RECORD_AUDIO},RecordAudioRequestCode);
++//        }
++//    }
++//
++//    @Override
++//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
++//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
++//        if (requestCode == RecordAudioRequestCode && grantResults.length > 0 ){
++//            if(grantResults[0] == PackageManager.PERMISSION_GRANTED)
++//                Toast.makeText(getContext(),"Permission Granted", Toast.LENGTH_SHORT).show();
++//        }
++//    }
++//
++//}
+\ No newline at end of file
+Index: app/src/main/java/com/java/medtrach/ui/pharmacy/PharmacyFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.java.medtrach.ui.pharmacy;\r\n\r\nimport android.Manifest;\r\nimport android.annotation.SuppressLint;\r\nimport android.content.Intent;\r\nimport android.content.pm.PackageManager;\r\nimport android.os.Build;\r\nimport android.os.Bundle;\r\nimport android.speech.RecognitionListener;\r\nimport android.speech.RecognizerIntent;\r\nimport android.speech.SpeechRecognizer;\r\nimport android.text.Editable;\r\nimport android.text.TextWatcher;\r\nimport android.view.LayoutInflater;\r\nimport android.view.MotionEvent;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.Button;\r\nimport android.widget.EditText;\r\nimport android.widget.ImageView;\r\nimport android.widget.Toast;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.core.app.ActivityCompat;\r\nimport androidx.core.content.ContextCompat;\r\nimport androidx.fragment.app.Fragment;\r\nimport androidx.recyclerview.widget.LinearLayoutManager;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\n\r\nimport com.firebase.ui.database.FirebaseRecyclerAdapter;\r\nimport com.firebase.ui.database.FirebaseRecyclerOptions;\r\nimport com.google.firebase.database.DatabaseReference;\r\nimport com.google.firebase.database.FirebaseDatabase;\r\nimport com.google.firebase.database.Query;\r\nimport com.java.medtrach.R;\r\nimport com.java.medtrach.common.Common;\r\nimport com.java.medtrach.model.DrugModel;\r\nimport com.java.medtrach.model.PharmacyModel;\r\n\r\nimport org.apache.commons.lang3.StringUtils;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.Locale;\r\n\r\npublic class PharmacyFragment extends Fragment {\r\n\r\n    private EditText searchBarEditText;\r\n    private ImageView microphoneButton;\r\n\r\n    private SpeechRecognizer speechRecognizer;\r\n    public static final Integer RecordAudioRequestCode = 1;\r\n\r\n    private RecyclerView.LayoutManager layoutManager;\r\n    private View view;\r\n    private RecyclerView recyclerView;\r\n\r\n    FirebaseRecyclerAdapter<PharmacyModel, PharmacyViewHolder> adapter;\r\n    FirebaseRecyclerOptions<PharmacyModel> options;\r\n    private DatabaseReference drugReference, pharmacyReference;\r\n\r\n    private DrugModel drugModel;\r\n\r\n    @SuppressLint(\"ClickableViewAccessibility\")\r\n    public View onCreateView(@NonNull LayoutInflater inflater,\r\n                             ViewGroup container, Bundle savedInstanceState) {\r\n\r\n        View root = inflater.inflate(R.layout.fragment_catalogue, container, false);\r\n\r\n        searchBarEditText = root.findViewById(R.id.catalogue_search_bar);\r\n        microphoneButton = root.findViewById(R.id.catalogue_microphone_image);\r\n\r\n        if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED){\r\n            checkPermission();\r\n        }\r\n\r\n        speechRecognizer = SpeechRecognizer.createSpeechRecognizer(getContext());\r\n        final Intent speechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);\r\n        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);\r\n        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());\r\n\r\n        speechRecognizer.setRecognitionListener(new RecognitionListener() {\r\n            @Override\r\n            public void onReadyForSpeech(Bundle bundle) {\r\n\r\n            }\r\n\r\n            @Override\r\n            public void onBeginningOfSpeech() {\r\n                searchBarEditText.setText(\"Listening...\");\r\n            }\r\n\r\n            @Override\r\n            public void onRmsChanged(float v) {\r\n\r\n            }\r\n\r\n            @Override\r\n            public void onBufferReceived(byte[] bytes) {\r\n\r\n            }\r\n\r\n            @Override\r\n            public void onEndOfSpeech() {\r\n\r\n            }\r\n\r\n            @Override\r\n            public void onError(int i) {\r\n\r\n            }\r\n\r\n            @Override\r\n            public void onResults(Bundle bundle) {\r\n                microphoneButton.setImageResource(R.drawable.ic_baseline_mic_24);\r\n                ArrayList<String> data = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);\r\n                searchBarEditText.setText(StringUtils.capitalize(data.get(0)));\r\n            }\r\n\r\n            @Override\r\n            public void onPartialResults(Bundle bundle) {\r\n\r\n            }\r\n\r\n            @Override\r\n            public void onEvent(int i, Bundle bundle) {\r\n\r\n            }\r\n        });\r\n        microphoneButton.setOnTouchListener(new View.OnTouchListener() {\r\n            @Override\r\n            public boolean onTouch(View view, MotionEvent motionEvent) {\r\n                Toast.makeText(getContext(), \"TESTING MIC!!!\", Toast.LENGTH_SHORT).show();\r\n\r\n                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {\r\n                    speechRecognizer.stopListening();\r\n                }\r\n                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN){\r\n                    microphoneButton.setImageResource(R.drawable.ic_baseline_map_24);\r\n                    speechRecognizer.startListening(speechRecognizerIntent);\r\n                }\r\n                return false;\r\n            }\r\n        });\r\n\r\n        drugModel = new DrugModel();\r\n\r\n        recyclerView = (RecyclerView) root.findViewById(R.id.catalogue_recycler_view);\r\n        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));\r\n        recyclerView.setHasFixedSize(true);\r\n\r\n        drugReference = FirebaseDatabase.getInstance().getReference().child(Common.DRUG_REF);\r\n        pharmacyReference = FirebaseDatabase.getInstance().getReference().child(Common.PHARMACY_REF);\r\n\r\n        root.findViewById(R.id.add_pharmacy_button).setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View view) {\r\n                Intent intent = new Intent(getContext(), AddPharmacyActivity.class);\r\n                startActivity(intent);\r\n            }\r\n        });\r\n        root.findViewById(R.id.add_drugs_button).setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View view) {\r\n                Intent intent = new Intent(getContext(), AddDrugActivity.class);\r\n                startActivity(intent);\r\n            }\r\n        });\r\n\r\n        loadData(\"\");\r\n\r\n        searchBarEditText.addTextChangedListener(new TextWatcher() {\r\n            @Override\r\n            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {\r\n\r\n            }\r\n\r\n            @Override\r\n            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {\r\n\r\n            }\r\n\r\n            @Override\r\n            public void afterTextChanged(Editable editable) {\r\n                if(editable.toString() != null) {\r\n                    loadData(editable.toString());\r\n                } else {\r\n                    loadData(\"\");\r\n                }\r\n            }\r\n        });\r\n\r\n        return root;\r\n    }\r\n\r\n\r\n    /**\r\n     * Loads pharmacy first.\r\n     * @param data\r\n     */\r\n\r\n    private void loadData(String data) {\r\n        Query query = pharmacyReference.orderByChild(\"pharmacyName\").startAt(data).endAt(data + \"\\uf8ff\");\r\n\r\n        options = new FirebaseRecyclerOptions.Builder<PharmacyModel>()\r\n                .setQuery(query, PharmacyModel.class)\r\n                .build();\r\n\r\n        adapter = new FirebaseRecyclerAdapter<PharmacyModel, PharmacyViewHolder>(options) {\r\n            @NonNull\r\n            @Override\r\n            public PharmacyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {\r\n                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_catalogue_pharmacy, parent, false);\r\n                return new PharmacyViewHolder(view);\r\n            }\r\n\r\n            @Override\r\n            protected void onBindViewHolder(@NonNull PharmacyViewHolder holder, int position, @NonNull PharmacyModel model) {\r\n                final String myPharmacyName = model.getPharmacyName();\r\n                final String myPharmacyLocation = model.getPharmacyLocation();\r\n\r\n                holder.pharmacyName.setText(myPharmacyName);\r\n                holder.pharmacyLocation.setText(myPharmacyLocation);\r\n\r\n                holder.itemView.setOnClickListener(new View.OnClickListener() {\r\n                    @Override\r\n                    public void onClick(View view) {\r\n                        Toast.makeText(getContext(), \"Testing!\", Toast.LENGTH_SHORT).show();\r\n                    }\r\n                });\r\n            }\r\n            };\r\n\r\n        adapter.startListening();\r\n        recyclerView.setAdapter(adapter);\r\n        adapter.notifyDataSetChanged();\r\n        }\r\n\r\n\r\n    private void checkPermission() {\r\n        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {\r\n            ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.RECORD_AUDIO},RecordAudioRequestCode);\r\n        }\r\n    }\r\n\r\n    @Override\r\n    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {\r\n        super.onRequestPermissionsResult(requestCode, permissions, grantResults);\r\n        if (requestCode == RecordAudioRequestCode && grantResults.length > 0 ){\r\n            if(grantResults[0] == PackageManager.PERMISSION_GRANTED)\r\n                Toast.makeText(getContext(),\"Permission Granted\", Toast.LENGTH_SHORT).show();\r\n        }\r\n    }\r\n\r\n}
+===================================================================
+--- app/src/main/java/com/java/medtrach/ui/pharmacy/PharmacyFragment.java	(revision ab3f86221150c8fccba5236bcacd99a8ed19cc8b)
++++ app/src/main/java/com/java/medtrach/ui/pharmacy/PharmacyFragment.java	(date 1610710092485)
+@@ -1,254 +1,8 @@
+ package com.java.medtrach.ui.pharmacy;
+-
+-import android.Manifest;
+-import android.annotation.SuppressLint;
+-import android.content.Intent;
+-import android.content.pm.PackageManager;
+-import android.os.Build;
+-import android.os.Bundle;
+-import android.speech.RecognitionListener;
+-import android.speech.RecognizerIntent;
+-import android.speech.SpeechRecognizer;
+-import android.text.Editable;
+-import android.text.TextWatcher;
+-import android.view.LayoutInflater;
+-import android.view.MotionEvent;
+-import android.view.View;
+-import android.view.ViewGroup;
+-import android.widget.Button;
+-import android.widget.EditText;
+-import android.widget.ImageView;
+-import android.widget.Toast;
+-
+-import androidx.annotation.NonNull;
+-import androidx.core.app.ActivityCompat;
+-import androidx.core.content.ContextCompat;
+ import androidx.fragment.app.Fragment;
+-import androidx.recyclerview.widget.LinearLayoutManager;
+-import androidx.recyclerview.widget.RecyclerView;
+-
+-import com.firebase.ui.database.FirebaseRecyclerAdapter;
+-import com.firebase.ui.database.FirebaseRecyclerOptions;
+-import com.google.firebase.database.DatabaseReference;
+-import com.google.firebase.database.FirebaseDatabase;
+-import com.google.firebase.database.Query;
+-import com.java.medtrach.R;
+-import com.java.medtrach.common.Common;
+-import com.java.medtrach.model.DrugModel;
+-import com.java.medtrach.model.PharmacyModel;
+-
+-import org.apache.commons.lang3.StringUtils;
+-
+-import java.util.ArrayList;
+-import java.util.Locale;
+ 
+ public class PharmacyFragment extends Fragment {
+ 
+-    private EditText searchBarEditText;
+-    private ImageView microphoneButton;
+-
+-    private SpeechRecognizer speechRecognizer;
+-    public static final Integer RecordAudioRequestCode = 1;
+-
+-    private RecyclerView.LayoutManager layoutManager;
+-    private View view;
+-    private RecyclerView recyclerView;
+-
+-    FirebaseRecyclerAdapter<PharmacyModel, PharmacyViewHolder> adapter;
+-    FirebaseRecyclerOptions<PharmacyModel> options;
+-    private DatabaseReference drugReference, pharmacyReference;
+-
+-    private DrugModel drugModel;
+-
+-    @SuppressLint("ClickableViewAccessibility")
+-    public View onCreateView(@NonNull LayoutInflater inflater,
+-                             ViewGroup container, Bundle savedInstanceState) {
+-
+-        View root = inflater.inflate(R.layout.fragment_catalogue, container, false);
+-
+-        searchBarEditText = root.findViewById(R.id.catalogue_search_bar);
+-        microphoneButton = root.findViewById(R.id.catalogue_microphone_image);
+-
+-        if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED){
+-            checkPermission();
+-        }
+-
+-        speechRecognizer = SpeechRecognizer.createSpeechRecognizer(getContext());
+-        final Intent speechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+-        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+-        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+-
+-        speechRecognizer.setRecognitionListener(new RecognitionListener() {
+-            @Override
+-            public void onReadyForSpeech(Bundle bundle) {
+-
+-            }
+-
+-            @Override
+-            public void onBeginningOfSpeech() {
+-                searchBarEditText.setText("Listening...");
+-            }
+-
+-            @Override
+-            public void onRmsChanged(float v) {
+-
+-            }
+-
+-            @Override
+-            public void onBufferReceived(byte[] bytes) {
+-
+-            }
+-
+-            @Override
+-            public void onEndOfSpeech() {
+-
+-            }
+-
+-            @Override
+-            public void onError(int i) {
+-
+-            }
+-
+-            @Override
+-            public void onResults(Bundle bundle) {
+-                microphoneButton.setImageResource(R.drawable.ic_baseline_mic_24);
+-                ArrayList<String> data = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+-                searchBarEditText.setText(StringUtils.capitalize(data.get(0)));
+-            }
+-
+-            @Override
+-            public void onPartialResults(Bundle bundle) {
+-
+-            }
+-
+-            @Override
+-            public void onEvent(int i, Bundle bundle) {
+-
+-            }
+-        });
+-        microphoneButton.setOnTouchListener(new View.OnTouchListener() {
+-            @Override
+-            public boolean onTouch(View view, MotionEvent motionEvent) {
+-                Toast.makeText(getContext(), "TESTING MIC!!!", Toast.LENGTH_SHORT).show();
+-
+-                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+-                    speechRecognizer.stopListening();
+-                }
+-                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+-                    microphoneButton.setImageResource(R.drawable.ic_baseline_map_24);
+-                    speechRecognizer.startListening(speechRecognizerIntent);
+-                }
+-                return false;
+-            }
+-        });
+-
+-        drugModel = new DrugModel();
+-
+-        recyclerView = (RecyclerView) root.findViewById(R.id.catalogue_recycler_view);
+-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+-        recyclerView.setHasFixedSize(true);
+-
+-        drugReference = FirebaseDatabase.getInstance().getReference().child(Common.DRUG_REF);
+-        pharmacyReference = FirebaseDatabase.getInstance().getReference().child(Common.PHARMACY_REF);
+-
+-        root.findViewById(R.id.add_pharmacy_button).setOnClickListener(new View.OnClickListener() {
+-            @Override
+-            public void onClick(View view) {
+-                Intent intent = new Intent(getContext(), AddPharmacyActivity.class);
+-                startActivity(intent);
+-            }
+-        });
+-        root.findViewById(R.id.add_drugs_button).setOnClickListener(new View.OnClickListener() {
+-            @Override
+-            public void onClick(View view) {
+-                Intent intent = new Intent(getContext(), AddDrugActivity.class);
+-                startActivity(intent);
+-            }
+-        });
+-
+-        loadData("");
+-
+-        searchBarEditText.addTextChangedListener(new TextWatcher() {
+-            @Override
+-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+-
+-            }
+-
+-            @Override
+-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+-
+-            }
+-
+-            @Override
+-            public void afterTextChanged(Editable editable) {
+-                if(editable.toString() != null) {
+-                    loadData(editable.toString());
+-                } else {
+-                    loadData("");
+-                }
+-            }
+-        });
+-
+-        return root;
+-    }
+-
+-
+-    /**
+-     * Loads pharmacy first.
+-     * @param data
+-     */
+-
+-    private void loadData(String data) {
+-        Query query = pharmacyReference.orderByChild("pharmacyName").startAt(data).endAt(data + "\uf8ff");
+-
+-        options = new FirebaseRecyclerOptions.Builder<PharmacyModel>()
+-                .setQuery(query, PharmacyModel.class)
+-                .build();
+-
+-        adapter = new FirebaseRecyclerAdapter<PharmacyModel, PharmacyViewHolder>(options) {
+-            @NonNull
+-            @Override
+-            public PharmacyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_catalogue_pharmacy, parent, false);
+-                return new PharmacyViewHolder(view);
+-            }
+-
+-            @Override
+-            protected void onBindViewHolder(@NonNull PharmacyViewHolder holder, int position, @NonNull PharmacyModel model) {
+-                final String myPharmacyName = model.getPharmacyName();
+-                final String myPharmacyLocation = model.getPharmacyLocation();
+-
+-                holder.pharmacyName.setText(myPharmacyName);
+-                holder.pharmacyLocation.setText(myPharmacyLocation);
+-
+-                holder.itemView.setOnClickListener(new View.OnClickListener() {
+-                    @Override
+-                    public void onClick(View view) {
+-                        Toast.makeText(getContext(), "Testing!", Toast.LENGTH_SHORT).show();
+-                    }
+-                });
+-            }
+-            };
+-
+-        adapter.startListening();
+-        recyclerView.setAdapter(adapter);
+-        adapter.notifyDataSetChanged();
+-        }
+ 
+ 
+-    private void checkPermission() {
+-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+-            ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.RECORD_AUDIO},RecordAudioRequestCode);
+-        }
+-    }
+-
+-    @Override
+-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+-        if (requestCode == RecordAudioRequestCode && grantResults.length > 0 ){
+-            if(grantResults[0] == PackageManager.PERMISSION_GRANTED)
+-                Toast.makeText(getContext(),"Permission Granted", Toast.LENGTH_SHORT).show();
+-        }
+-    }
+-
+ }
+\ No newline at end of file

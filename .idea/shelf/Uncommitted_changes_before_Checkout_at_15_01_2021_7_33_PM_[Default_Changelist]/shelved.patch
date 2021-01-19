@@ -1,0 +1,211 @@
+Index: app/src/main/res/layout/fragment_catalogue.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<LinearLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:orientation=\"vertical\"\r\n    tools:context=\".ui.pharmacy.PharmacyFragment\">\r\n\r\n    <LinearLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:orientation=\"horizontal\"\r\n        android:weightSum=\"2\">\r\n\r\n        <Button\r\n            android:id=\"@+id/add_pharmacy_button\"\r\n            android:layout_width=\"0dp\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:background=\"@color/colorBlack\"\r\n            android:textColor=\"@color/colorWhite\"\r\n            android:text=\"Add Pharmacy\"\r\n            android:textStyle=\"bold\"\r\n            android:layout_marginBottom=\"4dp\"\r\n            android:layout_weight=\"1\"/>\r\n\r\n        <Button\r\n            android:id=\"@+id/add_drugs_button\"\r\n            android:layout_width=\"0dp\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:background=\"@color/colorBlack\"\r\n            android:textColor=\"@color/colorWhite\"\r\n            android:text=\"Add Drugs\"\r\n            android:textStyle=\"bold\"\r\n            android:layout_marginBottom=\"4dp\"\r\n            android:layout_weight=\"1\"/>\r\n\r\n    </LinearLayout>\r\n\r\n    <LinearLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:orientation=\"vertical\">\r\n\r\n        <LinearLayout\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:weightSum=\"10\"\r\n            android:orientation=\"horizontal\">\r\n\r\n            <EditText\r\n                android:id=\"@+id/catalogue_search_bar\"\r\n                android:layout_width=\"0dp\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:hint=\"Search\"\r\n                android:inputType=\"text\"\r\n                android:drawableStart=\"@drawable/ic_baseline_search_24\"\r\n                android:focusedByDefault=\"false\"\r\n                android:layout_weight=\"9\" />\r\n\r\n            <ImageView\r\n                android:id=\"@+id/catalogue_microphone_image\"\r\n                android:padding=\"8dp\"\r\n                android:layout_width=\"0dp\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:src=\"@drawable/ic_baseline_mic_24\"\r\n                android:layout_weight=\"1\"/>\r\n\r\n        </LinearLayout>\r\n\r\n        <androidx.recyclerview.widget.RecyclerView\r\n            android:id=\"@+id/catalogue_recycler_view\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"match_parent\"\r\n            android:layout_marginTop=\"8dp\"/>\r\n\r\n    </LinearLayout>\r\n\r\n\r\n\r\n</LinearLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/fragment_catalogue.xml	(revision ab3f86221150c8fccba5236bcacd99a8ed19cc8b)
++++ app/src/main/res/layout/fragment_catalogue.xml	(date 1610707879927)
+@@ -6,70 +6,13 @@
+     android:layout_height="match_parent"
+     android:orientation="vertical"
+     tools:context=".ui.pharmacy.PharmacyFragment">
+-
+-    <LinearLayout
+-        android:layout_width="match_parent"
+-        android:layout_height="wrap_content"
+-        android:orientation="horizontal"
+-        android:weightSum="2">
+-
+-        <Button
+-            android:id="@+id/add_pharmacy_button"
+-            android:layout_width="0dp"
+-            android:layout_height="wrap_content"
+-            android:background="@color/colorBlack"
+-            android:textColor="@color/colorWhite"
+-            android:text="Add Pharmacy"
+-            android:textStyle="bold"
+-            android:layout_marginBottom="4dp"
+-            android:layout_weight="1"/>
+-
+-        <Button
+-            android:id="@+id/add_drugs_button"
+-            android:layout_width="0dp"
+-            android:layout_height="wrap_content"
+-            android:background="@color/colorBlack"
+-            android:textColor="@color/colorWhite"
+-            android:text="Add Drugs"
+-            android:textStyle="bold"
+-            android:layout_marginBottom="4dp"
+-            android:layout_weight="1"/>
+-
+-    </LinearLayout>
+-
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:orientation="vertical">
+ 
+-        <LinearLayout
+-            android:layout_width="match_parent"
+-            android:layout_height="wrap_content"
+-            android:weightSum="10"
+-            android:orientation="horizontal">
+-
+-            <EditText
+-                android:id="@+id/catalogue_search_bar"
+-                android:layout_width="0dp"
+-                android:layout_height="wrap_content"
+-                android:hint="Search"
+-                android:inputType="text"
+-                android:drawableStart="@drawable/ic_baseline_search_24"
+-                android:focusedByDefault="false"
+-                android:layout_weight="9" />
+-
+-            <ImageView
+-                android:id="@+id/catalogue_microphone_image"
+-                android:padding="8dp"
+-                android:layout_width="0dp"
+-                android:layout_height="wrap_content"
+-                android:src="@drawable/ic_baseline_mic_24"
+-                android:layout_weight="1"/>
+-
+-        </LinearLayout>
+-
+         <androidx.recyclerview.widget.RecyclerView
+-            android:id="@+id/catalogue_recycler_view"
++            android:id="@+id/pharmacy_recycler_view"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:layout_marginTop="8dp"/>
+Index: app/src/main/java/com/java/medtrach/common/Common.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.java.medtrach.common;\r\n\r\npublic class Common {\r\n    public static final String USER_REF = \"User\";\r\n    public static final String PHARMACY_REF = \"Pharmacy\";\r\n    public static final String DRUG_REF = \"Drug\";\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/java/medtrach/common/Common.java	(revision ab3f86221150c8fccba5236bcacd99a8ed19cc8b)
++++ app/src/main/java/com/java/medtrach/common/Common.java	(date 1610708957639)
+@@ -4,4 +4,7 @@
+     public static final String USER_REF = "User";
+     public static final String PHARMACY_REF = "Pharmacy";
+     public static final String DRUG_REF = "Drug";
++
++    public static final int DEFAULT_COLUMN_COUNT = 0;
++    public static final int FULL_WIDTH_COLUMN = 1;
+ }
+Index: app/src/main/java/com/java/medtrach/callback/IPharmacyCallbackListener.java
+===================================================================
+--- app/src/main/java/com/java/medtrach/callback/IPharmacyCallbackListener.java	(date 1610706634323)
++++ app/src/main/java/com/java/medtrach/callback/IPharmacyCallbackListener.java	(date 1610706634323)
+@@ -0,0 +1,10 @@
++package com.java.medtrach.callback;
++
++import com.java.medtrach.model.PharmacyModel;
++
++import java.util.List;
++
++public interface IPharmacyCallbackListener {
++    void onPharmacyDealLoadSuccess(List<PharmacyModel> pharmacyModelList);
++    void onPharmacyDealLoadFailed(String message);
++}
+Index: app/src/main/java/com/java/medtrach/ui/pharmacy/PharmacyViewModel.java
+===================================================================
+--- app/src/main/java/com/java/medtrach/ui/pharmacy/PharmacyViewModel.java	(date 1610710166101)
++++ app/src/main/java/com/java/medtrach/ui/pharmacy/PharmacyViewModel.java	(date 1610710166101)
+@@ -0,0 +1,33 @@
++package com.java.medtrach.ui.pharmacy;
++
++import androidx.annotation.NonNull;
++import androidx.lifecycle.MutableLiveData;
++import androidx.lifecycle.ViewModel;
++
++import com.google.firebase.database.DataSnapshot;
++import com.google.firebase.database.DatabaseError;
++import com.google.firebase.database.DatabaseReference;
++import com.google.firebase.database.FirebaseDatabase;
++import com.google.firebase.database.ValueEventListener;
++import com.java.medtrach.callback.IPharmacyCallbackListener;
++import com.java.medtrach.common.Common;
++import com.java.medtrach.model.PharmacyModel;
++
++import org.apache.commons.lang3.mutable.Mutable;
++
++import java.util.ArrayList;
++import java.util.List;
++
++public class PharmacyViewModel extends ViewModel implements IPharmacyCallbackListener {
++
++    private MutableLiveData<List<Pharma>>
++    @Override
++    public void onPharmacyDealLoadSuccess(List<PharmacyModel> pharmacyModelList) {
++
++    }
++
++    @Override
++    public void onPharmacyDealLoadFailed(String message) {
++
++    }
++}
+Index: app/src/main/java/com/java/medtrach/callback/IRecyclerClickListener.java
+===================================================================
+--- app/src/main/java/com/java/medtrach/callback/IRecyclerClickListener.java	(date 1610708808541)
++++ app/src/main/java/com/java/medtrach/callback/IRecyclerClickListener.java	(date 1610708808541)
+@@ -0,0 +1,7 @@
++package com.java.medtrach.callback;
++
++import android.view.View;
++
++public interface IRecyclerClickListener {
++    void onItemClickListener(View view, int position);
++}
+Index: app/src/main/java/com/java/medtrach/ui/pharmacy/MyPharmacyAdapter.java
+===================================================================
+--- app/src/main/java/com/java/medtrach/ui/pharmacy/MyPharmacyAdapter.java	(date 1610710084863)
++++ app/src/main/java/com/java/medtrach/ui/pharmacy/MyPharmacyAdapter.java	(date 1610710084863)
+@@ -0,0 +1,26 @@
++package com.java.medtrach.ui.pharmacy;
++
++import android.content.Context;
++import android.view.LayoutInflater;
++import android.view.View;
++import android.view.ViewGroup;
++import android.widget.TextView;
++
++import androidx.annotation.NonNull;
++import androidx.recyclerview.widget.RecyclerView;
++
++import com.java.medtrach.R;
++import com.java.medtrach.callback.IRecyclerClickListener;
++import com.java.medtrach.common.Common;
++import com.java.medtrach.model.PharmacyModel;
++
++import java.util.List;
++
++import butterknife.BindView;
++import butterknife.ButterKnife;
++import butterknife.Unbinder;
++
++public class MyPharmacyAdapter {
++
++
++}
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\r\n  <component name=\"GradleSettings\">\r\n    <option name=\"linkedExternalProjectsSettings\">\r\n      <GradleProjectSettings>\r\n        <option name=\"testRunner\" value=\"PLATFORM\" />\r\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\r\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\r\n        <option name=\"gradleJvm\" value=\"1.8\" />\r\n        <option name=\"modules\">\r\n          <set>\r\n            <option value=\"$PROJECT_DIR$\" />\r\n            <option value=\"$PROJECT_DIR$/app\" />\r\n          </set>\r\n        </option>\r\n        <option name=\"resolveModulePerSourceSet\" value=\"false\" />\r\n        <option name=\"useQualifiedModuleNames\" value=\"true\" />\r\n      </GradleProjectSettings>\r\n    </option>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/gradle.xml	(revision ab3f86221150c8fccba5236bcacd99a8ed19cc8b)
++++ .idea/gradle.xml	(date 1610707479635)
+@@ -5,6 +5,7 @@
+     <option name="linkedExternalProjectsSettings">
+       <GradleProjectSettings>
+         <option name="testRunner" value="PLATFORM" />
++        <option name="disableWrapperSourceDistributionNotification" value="true" />
+         <option name="distributionType" value="DEFAULT_WRAPPED" />
+         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+         <option name="gradleJvm" value="1.8" />
