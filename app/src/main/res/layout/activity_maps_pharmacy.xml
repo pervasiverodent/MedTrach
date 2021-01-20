@@ -83,7 +83,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="sans-serif"
-                        android:text="X: "/>
+                        android:text=""/>
 
                     <TextView
                         android:id="@+id/latitude_y_text_view"
@@ -91,7 +91,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="sans-serif"
-                        android:text="Y: "/>
+                        android:text=""/>
 
 
                 </LinearLayout>

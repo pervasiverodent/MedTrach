@@ -45,7 +45,6 @@ import java.util.Locale;
 
 public class PharmacyFragment extends Fragment {
 
-
     final String TAG = "CatalogueFragment";
 
     private EditText searchBarEditText;
