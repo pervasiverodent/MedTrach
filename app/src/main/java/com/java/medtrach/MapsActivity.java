@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -29,11 +30,17 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.java.medtrach.common.Common;
 
 import java.util.ArrayList;
@@ -42,7 +49,7 @@ import java.util.List;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.OnConnectionFailedListener, RoutingListener {
 
-    private static final String TAG = "MapsActivity.java";
+    private static final String TAG = MapsActivity.class.getName();
     private GoogleMap mMap;
 
     Location myLocation = null;
@@ -54,6 +61,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private List<Polyline> polylines = null;
 
     boolean locationPermission = false;
+    private FirebaseDatabase mDatabase;
+    private DatabaseReference pharmacyReference;
+
+    private Double latitude, longitude;
+//    private String pharmacyName;
+    private String fromPharmacyId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,6 +78,61 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         supportMapFragment.getMapAsync(this);
+
+        mDatabase = FirebaseDatabase.getInstance();
+        pharmacyReference = mDatabase.getReference(Common.PHARMACY_REF);
+
+        // Retrieve from intent
+        Intent intent = getIntent();
+        fromPharmacyId = intent.getStringExtra("pharmacyId");
+
+        Log.d(TAG, "Pharmacy ID: " + fromPharmacyId);
+
+//        pharmacyReference.child(fromPharmacyId).addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                    latitude = snapshot.child("pharmacyLocationY").getValue(double.class);
+//                    longitude = snapshot.child("pharmacyLocationX").getValue(double.class);
+////                    pharmacyName = snapshot.child("pharmacyName").getValue(String.class);
+//                    Log.d(TAG, "Location Y: " + latitude);
+//                    Log.d(TAG, "Location X: " + longitude);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });        pharmacyReference.child(fromPharmacyId).addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                latitude = snapshot.child("pharmacyLocationY").getValue(double.class);
+//                longitude = snapshot.child("pharmacyLocationX").getValue(double.class);
+//                Log.d(TAG, "Location Y: " + latitude);
+//                Log.d(TAG, "Location X: " + longitude);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+
+        pharmacyReference.child(fromPharmacyId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                latitude = snapshot.child("pharmacyLocationY").getValue(double.class);
+                longitude = snapshot.child("pharmacyLocationX").getValue(double.class);
+                Log.d(TAG, "Location Y: " + latitude);
+                Log.d(TAG, "Location X: " + longitude);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void requestPermissions() {
@@ -112,6 +180,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         latLng, 16f);
 
                 mMap.animateCamera(cameraUpdate);
+
+                findRoutes(start, end);
             }
         });
 
@@ -136,6 +206,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if(locationPermission) {
             getMyLocation();
         }
+
+        LatLng pharmacyLocation = new LatLng(latitude, longitude);
+//        LatLng myLocation = new LatLng()
+
+
+//        findRoutes(,);
     }
 
     public void findRoutes(LatLng Start, LatLng End) {
@@ -183,14 +259,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if(i==shortestRouteIndex)
             {
                 polyOptions.color(getResources().getColor(R.color.colorPrimary));
-                polyOptions.width(14);
+                polyOptions.width(24);
                 polyOptions.addAll(route.get(shortestRouteIndex).getPoints());
+
                 Polyline polyline = mMap.addPolyline(polyOptions);
                 polylineStartLatLng=polyline.getPoints().get(0);
+
                 int k=polyline.getPoints().size();
+
                 polylineEndLatLng=polyline.getPoints().get(k-1);
                 polylines.add(polyline);
-
             }
             else {
 
@@ -206,7 +284,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //Add Marker on route ending position
         MarkerOptions endMarker = new MarkerOptions();
         endMarker.position(polylineEndLatLng);
-        endMarker.title("Destination");
+        endMarker.title("Pharmacy");
         mMap.addMarker(endMarker);
 
         // Place marker for Pharmacy

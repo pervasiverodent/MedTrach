@@ -25,27 +25,57 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_margin="8dp">
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/pharmacy_detailed_name_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/pharmacy_name"
-            android:textStyle="bold"
-            android:fontFamily="sans-serif-condensed-light"
-            android:textSize="15sp"
-            android:layout_marginBottom="4dp"
-            app:drawableStartCompat="@drawable/ic_baseline_keyboard_arrow_right_24" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
 
-        <TextView
-            android:id="@+id/pharmacy_detailed_location_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/pharmacy_location"
-            android:fontFamily="sans-serif"
-            app:drawableStartCompat="@drawable/ic_baseline_location_on_24" />
+                android:layout_margin="8dp">
+
+                <TextView
+                    android:id="@+id/pharmacy_detailed_name_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pharmacy_name"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-condensed-light"
+                    android:textSize="15sp"
+                    android:layout_marginBottom="4dp"
+                    app:drawableStartCompat="@drawable/ic_baseline_keyboard_arrow_right_24" />
+
+                <TextView
+                    android:id="@+id/pharmacy_detailed_location_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pharmacy_location"
+                    android:fontFamily="sans-serif"
+                    app:drawableStartCompat="@drawable/ic_baseline_location_on_24" />
+
+                <Button
+                    android:id="@+id/open_maps_pharmacy_detailed_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="32dp"
+                    android:paddingEnd="32dp"
+                    android:paddingTop="14dp"
+                    android:paddingBottom="14dp"
+                    android:background="@color/colorBlack"
+                    android:textColor="@color/colorWhite"
+                    android:layout_marginTop="16dp"
+                    android:text="Open Maps"
+                    android:textSize="16sp"
+                    android:drawableStart="@drawable/ic_baseline_location_on_24"
+                    android:drawableTint="@color/colorWhite"
+                    android:drawablePadding="8dp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="4dp"
+                    />
+        </LinearLayout>
+
+
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

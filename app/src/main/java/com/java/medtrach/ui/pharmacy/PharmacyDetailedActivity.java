@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.java.medtrach.MapsActivity;
 import com.java.medtrach.R;
 import com.java.medtrach.common.Common;
 //import com.java.medtrach.ui.catalogue.AddDrugActivity;
@@ -25,7 +26,7 @@ public class PharmacyDetailedActivity extends AppCompatActivity {
     final String TAG = PharmacyDetailedActivity.class.getName();
 
     TextView pharmacyDetailedName, pharmacyDetailedLocation;
-    Button addDrugsButton;
+    Button addDrugsButton, openMapsButton;
     private String fromPharmacyId;
 
     FirebaseDatabase mDatabase;
@@ -37,9 +38,12 @@ public class PharmacyDetailedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pharmacy);
 
+        Log.d(TAG, "Class: " + TAG);
+
         pharmacyDetailedName = findViewById(R.id.pharmacy_detailed_name_text_view);
         pharmacyDetailedLocation = findViewById(R.id.pharmacy_detailed_location_text_view);
         addDrugsButton = findViewById(R.id.add_drugs_button);
+        openMapsButton = findViewById(R.id.open_maps_pharmacy_detailed_button);
 
         mDatabase = FirebaseDatabase.getInstance();
         pharmacyReference = mDatabase.getReference(Common.PHARMACY_REF);
@@ -75,6 +79,15 @@ public class PharmacyDetailedActivity extends AppCompatActivity {
                         intent.putExtra("pharmacyName", pharmacyName);
                         intent.putExtra("pharmacyLocation", pharmacyLocation);
 
+                        startActivity(intent);
+                    }
+                });
+
+                openMapsButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(PharmacyDetailedActivity.this, MapsActivity.class);
+                        intent.putExtra("pharmacyId", pharmacyId);
                         startActivity(intent);
                     }
                 });
