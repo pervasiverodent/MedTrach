@@ -198,14 +198,9 @@ public class MapsPharmacyActivity extends AppCompatActivity implements OnMapRead
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
 
 
-//                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 5f));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14f));
 //                Location currentLocation = LocationServices.Fused.getLastLocation(googleApiClient);
             }
         });
     }
-
-    private void addMarker(LatLng latLng) {
-
-    }
-
 }

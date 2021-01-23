@@ -1,7 +1,5 @@
 package com.java.medtrach.directions;
 
-import com.directions.route.Route;
-
 import java.util.List;
 
 public interface DirectionFinderListener {

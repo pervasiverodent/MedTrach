@@ -1,11 +1,9 @@
 package com.java.medtrach.directions;
 
-
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.java.medtrach.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,10 +19,11 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class DirectionFinder {
 
     private static final String DISTANCE_MATRIX_DIRECTION_URL = "https://maps.googleapis.com/maps/api/directions/json?";
-    private static final String GOOGLE_DIRECTION_API_KEY = String.valueOf(R.string.google_api_key);
+    private static final String GOOGLE_DIRECTION_API_KEY = "AIzaSyBl5MEJvaKveEKEo_-Js_8PolRKXIm0-vM";  // replace with your google direction api
     private DirectionFinderListener listener;
     private String origin;
     private String destination;
@@ -55,6 +54,7 @@ public class DirectionFinder {
         for (int i = 0; i < jsonRoutes.length(); i++) {
             JSONObject jsonRoute = jsonRoutes.getJSONObject(i);
             Route route = new Route();
+
             JSONObject overview_polylineJson = jsonRoute.getJSONObject("overview_polyline");
             JSONArray jsonLegs = jsonRoute.getJSONArray("legs");
             JSONObject jsonLeg = jsonLegs.getJSONObject(0);
@@ -71,7 +71,7 @@ public class DirectionFinder {
             routes.add(route);
         }
 
-        listener.onDirectionFinderSuccess(routes); // TODO
+        listener.onDirectionFinderSuccess(routes);
     }
 
     private List<LatLng> decodePolyLine(final String poly) {
