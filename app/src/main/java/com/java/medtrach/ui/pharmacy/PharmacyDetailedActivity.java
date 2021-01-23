@@ -63,10 +63,15 @@ public class PharmacyDetailedActivity extends AppCompatActivity {
                 final String pharmacyName = snapshot.child("pharmacyName").getValue().toString();
                 final String pharmacyLocation = snapshot.child("pharmacyLocation").getValue().toString();
 
+                final Double pharmacyLongitude = (Double) snapshot.child("pharmacyLocationX").getValue();
+                final Double pharmacyLatitude = (Double) snapshot.child("pharmacyLocationY").getValue();
+
                 Log.d(TAG, "From Firebase Database");
                 Log.d(TAG, "ID: " + pharmacyId);
                 Log.d(TAG, "Name: " + pharmacyName);
                 Log.d(TAG, "Location: " + pharmacyLocation);
+                Log.d(TAG, "Pharmacy Longitude: " + pharmacyLongitude);
+                Log.d(TAG, "Pharmacy Latitude: " + pharmacyLatitude);
 
                 pharmacyDetailedName.setText(pharmacyName);
                 pharmacyDetailedLocation.setText(pharmacyLocation);
@@ -78,6 +83,8 @@ public class PharmacyDetailedActivity extends AppCompatActivity {
                         intent.putExtra("pharmacyId", pharmacyId);
                         intent.putExtra("pharmacyName", pharmacyName);
                         intent.putExtra("pharmacyLocation", pharmacyLocation);
+                        intent.putExtra("pharmacyLongitude", pharmacyLongitude);
+                        intent.putExtra("pharmacyLatitude", pharmacyLatitude);
 
                         startActivity(intent);
                     }

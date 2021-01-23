@@ -8,20 +8,13 @@
             android:id="@+id/nav_pharmacy"
             android:icon="@drawable/ic_baseline_home_24"
             android:title="@string/menu_pharmacy" />
-
         <item
-            android:id="@+id/nav_profile"
+            android:id="@+id/nav_drugs"
             android:icon="@drawable/ic_baseline_person_24"
-            android:title="@string/menu_profile" />
-
-        <item
-            android:id="@+id/nav_map"
-            android:icon="@drawable/ic_baseline_map_24"
-            android:title="Google Maps" />
-
+            android:title="@string/menu_drugs" />
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_baseline_power_settings_new_24"
-            android:title="Log Out" />
+            android:title="@string/log_out" />
     </group>
 </menu>

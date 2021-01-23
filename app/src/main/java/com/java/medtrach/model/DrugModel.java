@@ -3,6 +3,7 @@ package com.java.medtrach.model;
 public class DrugModel {
     String drugId, drugName, drugDescription;
     String drugPharmacyId, drugPharmacyName, drugPharmacyLocation;
+    private Double drugPharmacyLatitude, drugPharmacyLongitude;
 
     public DrugModel() {
     }
@@ -11,15 +12,6 @@ public class DrugModel {
         this.drugId = drugId;
         this.drugName = drugName;
         this.drugDescription = drugDescription;
-    }
-
-    public DrugModel(String drugId, String drugName, String drugDescription, String drugPharmacyId, String drugPharmacyName, String drugPharmacyLocation) {
-        this.drugId = drugId;
-        this.drugName = drugName;
-        this.drugDescription = drugDescription;
-        this.drugPharmacyId = drugPharmacyId;
-        this.drugPharmacyName = drugPharmacyName;
-        this.drugPharmacyLocation = drugPharmacyLocation;
     }
 
     public String getDrugId() {
@@ -68,5 +60,21 @@ public class DrugModel {
 
     public void setDrugPharmacyLocation(String drugPharmacyLocation) {
         this.drugPharmacyLocation = drugPharmacyLocation;
+    }
+
+    public Double getDrugPharmacyLatitude() {
+        return drugPharmacyLatitude;
+    }
+
+    public void setDrugPharmacyLatitude(Double drugPharmacyLatitude) {
+        this.drugPharmacyLatitude = drugPharmacyLatitude;
+    }
+
+    public Double getDrugPharmacyLongitude() {
+        return drugPharmacyLongitude;
+    }
+
+    public void setDrugPharmacyLongitude(Double drugPharmacyLongitude) {
+        this.drugPharmacyLongitude = drugPharmacyLongitude;
     }
 }

@@ -43,6 +43,34 @@
                 android:fontFamily="sans-serif"
                 android:drawableStart="@drawable/ic_baseline_description_24"
                 />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:background="@color/colorAccent"
+                />
+
+            <TextView
+                android:id="@+id/card_view_pharmacy_name_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/pharmacy_name"
+                android:fontFamily="sans-serif"
+                android:drawableStart="@drawable/ic_baseline_store_24"
+                android:textStyle="bold"
+                />
+
+
+            <TextView
+                android:id="@+id/card_view_pharmacy_location_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/pharmacy_location"
+                android:fontFamily="sans-serif"
+                android:drawableStart="@drawable/ic_baseline_location_on_24"
+                />
+
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

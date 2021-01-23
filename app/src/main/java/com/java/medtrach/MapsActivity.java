@@ -184,7 +184,6 @@ public class MapsActivity extends AppCompatActivity implements
         XCoordinateTextView.setText("" + myLatitude);
         YCoordinateTextView.setText("" + myLongitude);
 
-
         Intent intent = getIntent();
 
         pharmacyId = intent.getStringExtra("pharmacyId");

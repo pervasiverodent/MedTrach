@@ -68,8 +68,6 @@ public class CatalogueFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_catalogue, container, false);
 
-        Button addPharmacyButton = root.findViewById(R.id.add_pharmacy_button);
-
         searchBarEditText = root.findViewById(R.id.catalogue_search_bar);
         microphoneButton = root.findViewById(R.id.catalogue_microphone_image);
 
@@ -162,13 +160,7 @@ public class CatalogueFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        root.findViewById(R.id.add_drugs_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getContext(), AddDrugActivity.class);
-                startActivity(intent);
-            }
-        });
+
 
         loadData("");
 
@@ -231,11 +223,9 @@ public class CatalogueFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(getActivity(), PharmacyDetailedActivity.class);
-
                         try {
                             intent.putExtra("pharmacyId", myPharmacyId);
                             Log.d(TAG, "Pharmacy ID: " + myPharmacyId);
-
                             startActivity(intent);
                         } catch (NullPointerException e) {
                             Toast.makeText(getContext(), "E: " + e.getMessage(), Toast.LENGTH_SHORT).show();

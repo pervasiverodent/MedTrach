@@ -3,24 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_catalogue">
+    app:startDestination="@+id/nav_pharmacy">
 
     <fragment
-        android:id="@+id/nav_catalogue"
+        android:id="@+id/nav_pharmacy"
         android:name="com.java.medtrach.ui.pharmacy.PharmacyFragment"
         android:label="@string/menu_pharmacy"
-
         tools:layout="@layout/fragment_catalogue" />
 
     <fragment
-        android:id="@+id/nav_profile"
-        android:name="com.java.medtrach.ui.profile.ProfileFragment"
-        android:label="@string/menu_profile"
-        tools:layout="@layout/fragment_profile" />
+        android:id="@+id/nav_drugs"
+        android:name="com.java.medtrach.ui.drug.DrugFragment"
+        android:label="@string/menu_drugs"
+        tools:layout="@layout/fragment_drug" />
 
-    <fragment
-        android:id="@+id/nav_map"
-        android:name="com.java.medtrach.ui.map.MapFragment"
-        android:label="Google Maps"
-        tools:layout="@layout/fragment_map" />
+
 </navigation>

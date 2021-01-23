@@ -7,6 +7,7 @@ import android.view.Menu;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.java.medtrach.EventBus.MenuItemBack;
 import com.java.medtrach.model.UserModel;
 
 import androidx.annotation.NonNull;
@@ -18,6 +19,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -25,11 +30,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawer;
     private NavigationView navigationView;
     private NavController navController;
-    private int menuClick = -1;
+    int menuClickId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -39,7 +43,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = findViewById(R.id.nav_view);
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_catalogue, R.id.nav_profile, R.id.nav_map)
+                R.id.nav_pharmacy, R.id.nav_drugs)
                 .setDrawerLayout(drawer)
                 .build();
 
@@ -48,6 +52,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         NavigationUI.setupWithNavController(navigationView, navController);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.bringToFront();
+
 
     }
 
@@ -64,7 +69,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+//        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
         return true;
     }
@@ -77,51 +82,50 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        menuItem.setChecked(true);
+        drawer.closeDrawers();
+        switch(menuItem.getItemId()) {
+            case R.id.nav_pharmacy:
+                if(menuItem.getItemId() != menuClickId) {
+                    navController.popBackStack();
+                    navController.navigate(R.id.nav_pharmacy);
+                }
+                break;
+            case R.id.nav_drugs:
+                if(menuItem.getItemId() != menuClickId) {
+                    navController.popBackStack();
+                    navController.navigate(R.id.nav_drugs);
+                }
+                break;
+            case R.id.nav_logout:
+                signOut();
+                break;
+            default:
+                menuClickId = -1;
+                break;
+        }
+        menuClickId = menuItem.getItemId();
+        return true;
+    }
+
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    public void onMenuItemBack(MenuItemBack event) {
+        menuClickId = -1;
+        if(getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            getSupportFragmentManager().popBackStack();
+        }
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
+        EventBus.getDefault().register(this);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        menuItem.setChecked(true);
-        drawer.closeDrawers();
-        switch(menuItem.getItemId()) {
-
-            case R.id.nav_catalogue:
-                if(menuItem.getItemId() != menuClick) {
-                    navController.popBackStack();
-                    navController.navigate(R.id.nav_catalogue);
-                }
-                break;
-
-            case R.id.nav_profile:
-                if(menuItem.getItemId() != menuClick) {
-                    navController.popBackStack();
-                    navController.navigate(R.id.nav_profile);
-                }
-                break;
-
-            case R.id.nav_map:
-                if(menuItem.getItemId() != menuClick) {
-                    navController.popBackStack();
-                    navController.navigate(R.id.nav_map);
-                }
-                break;
-
-            case R.id.nav_logout:
-                signOut();
-                break;
-
-            default:
-                menuClick = -1;
-                break;
-        }
-        menuClick = menuItem.getItemId();
-        return true;
+        EventBus.getDefault().unregister(this);
     }
 }

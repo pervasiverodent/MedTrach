@@ -35,6 +35,8 @@ public class AddDrugActivity extends AppCompatActivity {
     String pharmacyId;
     String pharmacyName;
     String pharmacyLocation;
+    Double pharmacyLatitude;
+    Double pharmacyLongitude;
 
     ValidateDrugInput validateDrugInput;
     DrugModel drugModel, drugListModel;
@@ -53,9 +55,14 @@ public class AddDrugActivity extends AppCompatActivity {
         pharmacyId = intent.getStringExtra("pharmacyId");
         pharmacyName = intent.getStringExtra("pharmacyName");
         pharmacyLocation = intent.getStringExtra("pharmacyLocation");
+        pharmacyLatitude = intent.getDoubleExtra("pharmacyLatitude", 0);
+        pharmacyLongitude = intent.getDoubleExtra("pharmacyLongitude", 0);
+
         Log.d(TAG, "Pharmacy ID: " + pharmacyId);
         Log.d(TAG, "Pharmacy Name: " + pharmacyName);
         Log.d(TAG, "Pharmacy Location: " + pharmacyLocation);
+        Log.d(TAG, "Pharmacy Latitude: " + pharmacyLatitude);
+        Log.d(TAG, "PharmacyLongitude: " + pharmacyLongitude);
 
         pharmacyNameTextView.setText(pharmacyName);
         pharmacyLocationTextView.setText(pharmacyLocation);
@@ -94,7 +101,7 @@ public class AddDrugActivity extends AppCompatActivity {
         
         if(drugNameVerified) {
             drugModel = new DrugModel();
-            drugListModel = new DrugModel(drugId, drugName, drugDescription, pharmacyId, pharmacyName, pharmacyLocation);
+            drugListModel = new DrugModel();
 
             drugModel.setDrugId(drugId);
             drugModel.setDrugName(drugName);
@@ -105,6 +112,9 @@ public class AddDrugActivity extends AppCompatActivity {
             drugListModel.setDrugDescription(drugDescription);
             drugListModel.setDrugPharmacyId(pharmacyId);
             drugListModel.setDrugPharmacyName(pharmacyName);
+            drugListModel.setDrugPharmacyLocation(pharmacyLocation);
+            drugListModel.setDrugPharmacyLatitude(pharmacyLatitude);
+            drugListModel.setDrugPharmacyLongitude(pharmacyLongitude);
 
             pharmacyReference.child(pharmacyId).child(Common.DRUG_REF).child(drugId).setValue(drugModel)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

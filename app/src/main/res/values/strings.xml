@@ -20,7 +20,7 @@
     <string name="action_settings">Settings</string>
 
     <string name="menu_pharmacy">Pharmacy</string>
-    <string name="menu_profile">Profile</string>
+    <string name="menu_drugs">Drugs</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="menu_logout">Log Out</string>
     <string name="title_activity_maps">Map</string>
@@ -31,4 +31,5 @@
     <string name="add_drugs">Add Drugs</string>
     <string name="pharmacy_name">Pharmacy Name</string>
     <string name="maps_api_key">AIzaSyBl5MEJvaKveEKEo_-Js_8PolRKXIm0-vM</string>
+    <string name="log_out">Log Out</string>
 </resources>
