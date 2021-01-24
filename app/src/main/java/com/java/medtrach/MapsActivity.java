@@ -39,6 +39,7 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.libraries.places.api.Places;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -100,10 +101,12 @@ public class MapsActivity extends AppCompatActivity implements
     private Double pharmacyLatitude, pharmacyLongitude;
     private String pharmacyId;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        Places.initialize(getApplicationContext(),"AIzaSyBl5MEJvaKveEKEo_-Js_8PolRKXIm0-vM");
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         assert mapFragment != null;
         mapFragment.getMapAsync(googleMap -> {
@@ -244,10 +247,8 @@ public class MapsActivity extends AppCompatActivity implements
         Log.d(TAG, "Pharmacy Location Y: " + pharmacyLatitude);
         Log.d(TAG, "Pharmacy Location X: " + pharmacyLongitude);
 
-
         Log.d(TAG, "My Latitude: " + myLatitude);
         Log.d(TAG, "My Longitude: " + myLongitude);
-        myLatLng = new LatLng(myLatitude, myLongitude);
 
         ActivityCompat.requestPermissions(this, new String[]{
                         Manifest.permission.ACCESS_FINE_LOCATION,
@@ -274,9 +275,11 @@ public class MapsActivity extends AppCompatActivity implements
                     @Override
                     public void onSuccess(Location location) {
                         if (location != null) {
-//                            getAddress(location);
                             Log.d(TAG, "Fused Latitude: " + location.getLatitude());
                             Log.d(TAG, "Fused Longitude: " + location.getLongitude());
+                            myLatitude = location.getLatitude();
+                            myLongitude = location.getLongitude();
+                            myLatLng = new LatLng(myLatitude, myLongitude);
                         }
                     }
                 })
@@ -312,7 +315,9 @@ public class MapsActivity extends AppCompatActivity implements
             Toast.makeText(this, "Error occurred on finding the directions...", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
+//        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(pharmacyLatLng));
         googleMap.animateCamera(buildCameraUpdate(routes.get(0).endLocation), 10, null);
+//        googleMap.animateCamera(buildCameraUpdate(myLatLng), 10, null);
     }
 
     @Override

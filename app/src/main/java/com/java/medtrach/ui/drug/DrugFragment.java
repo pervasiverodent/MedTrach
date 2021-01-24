@@ -38,11 +38,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.java.medtrach.MapsActivity;
 import com.java.medtrach.R;
 import com.java.medtrach.common.Common;
 import com.java.medtrach.model.DrugListModel;
 import com.java.medtrach.model.DrugModel;
 import com.java.medtrach.model.PharmacyModel;
+import com.java.medtrach.ui.pharmacy.PharmacyDetailedActivity;
 import com.java.medtrach.ui.pharmacy.PharmacyViewHolder;
 
 import org.apache.commons.lang3.StringUtils;
@@ -242,8 +244,9 @@ public class DrugFragment extends Fragment {
 
             @Override
             protected void onBindViewHolder(@NonNull DrugsViewHolder holder, int position, @NonNull DrugModel model) {
-                final String myDrugName, myDrugDescription, myDrugPharmacyName, myDrugPharmacyLocation;
+                final String myDrugName, myDrugDescription, myDrugPharmacyId, myDrugPharmacyName, myDrugPharmacyLocation;
 
+                myDrugPharmacyId = model.getDrugPharmacyId();
                 myDrugName = model.getDrugName();
                 myDrugDescription = model.getDrugDescription();
                 myDrugPharmacyName = model.getDrugPharmacyName();
@@ -253,6 +256,19 @@ public class DrugFragment extends Fragment {
                 holder.drugDescription.setText(myDrugDescription);
                 holder.pharmacyName.setText(myDrugPharmacyName);
                 holder.pharmacyLocation.setText(myDrugPharmacyLocation);
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getActivity(), MapsActivity.class);
+                        try {
+                            intent.putExtra("pharmacyId", myDrugPharmacyId);
+                            startActivity(intent);
+                        } catch (NullPointerException e) {
+                            Toast.makeText(getContext(), "E: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
 
         };
