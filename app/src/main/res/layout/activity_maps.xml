@@ -34,7 +34,13 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/debug_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="DEBUG"/>
 
         </LinearLayout>
 

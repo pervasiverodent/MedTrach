@@ -258,7 +258,7 @@ public class DrugFragment extends Fragment {
         };
         adapter.startListening();
         recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+//        adapter.notifyDataSetChanged();
     }
 
     private void checkPermission() {

@@ -7,6 +7,7 @@ import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -17,11 +18,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -33,6 +37,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,7 +48,6 @@ import com.java.medtrach.common.Common;
 import com.java.medtrach.directions.DirectionFinder;
 import com.java.medtrach.directions.DirectionFinderListener;
 import com.java.medtrach.directions.Route;
-import com.java.medtrach.util.GoogleMapHelper;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -58,6 +63,8 @@ public class MapsActivity extends AppCompatActivity implements
         DirectionFinderListener {
 
     private static final String TAG = MapsActivity.class.getSimpleName();
+    private boolean isContinue = false;
+    private boolean isGps;
 
     private enum PolylineStyle {
         DOTTED,
@@ -81,8 +88,13 @@ public class MapsActivity extends AppCompatActivity implements
     private TextView XCoordinateTextView, YCoordinateTextView;
     private MaterialDialog materialDialog;
 
-    private Location finalLocation, gpsLocation, networkLocation;
+    private Location finalLocation, gpsLocation, networkLocation, passiveLocation, extraLocation;
+    private FusedLocationProviderClient mFusedLocationClient;
+    private LocationRequest locationRequest;
+    private LocationCallback locationCallback;
+
     private DatabaseReference pharmacyReference;
+    private int locationRequestCode = 1000;
 
     private Double myLatitude, myLongitude;
     private Double pharmacyLatitude, pharmacyLongitude;
@@ -131,8 +143,6 @@ public class MapsActivity extends AppCompatActivity implements
             }
         });
 
-
-
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         // Check permission
@@ -140,8 +150,15 @@ public class MapsActivity extends AppCompatActivity implements
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED) {
 
+            ActivityCompat.requestPermissions(this, new String[]{
+                            Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                    locationRequestCode);
+
             return;
+        } else {
+            // Already granted
         }
+
 
         /**
          * Attempt to call JSON to parse Google directions for pathing.
@@ -156,10 +173,20 @@ public class MapsActivity extends AppCompatActivity implements
             }
         });
 
+        findViewById(R.id.debug_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getLastLocation();
+            }
+        });
+
         // Retrieve user's location.
         try {
+            Log.d(TAG, "Enabled Providers: " + locationManager.getProviders(true).toString());
             gpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             networkLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            passiveLocation = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+            extraLocation = locationManager.getLastKnownLocation(LocationManager.EXTRA_PROVIDER_NAME);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -168,21 +195,31 @@ public class MapsActivity extends AppCompatActivity implements
             finalLocation = gpsLocation;
             myLatitude = finalLocation.getLatitude();
             myLongitude = finalLocation.getLongitude();
-            Log.d(TAG, "GPS used");
+            Log.d(TAG, "Type: GPS");
 
         } else if (networkLocation != null) {
             finalLocation = networkLocation;
             myLatitude = finalLocation.getLatitude();
             myLongitude = finalLocation.getLongitude();
-            Log.d(TAG, "Network used");
-
+            Log.d(TAG, "Type: Network");
+        } else if (passiveLocation != null) {
+            finalLocation = passiveLocation;
+            myLatitude = finalLocation.getLatitude();
+            myLongitude = finalLocation.getLongitude();
+            Log.d(TAG, "Type: Passive");
+        } else if (extraLocation != null) {
+            finalLocation = extraLocation;
+            myLatitude = finalLocation.getLatitude();
+            myLongitude = finalLocation.getLongitude();
+            Log.d(TAG, "Type: Extra");
         } else {
-            myLatitude  = 0.0;
+            myLatitude = 0.0;
             myLongitude = 0.0;
+            Log.d(TAG, "Type: null");
         }
 
-        XCoordinateTextView.setText("" + myLatitude);
-        YCoordinateTextView.setText("" + myLongitude);
+        XCoordinateTextView.setText(myLatitude.toString());
+        YCoordinateTextView.setText(myLongitude.toString());
 
         Intent intent = getIntent();
 
@@ -212,9 +249,11 @@ public class MapsActivity extends AppCompatActivity implements
         Log.d(TAG, "My Longitude: " + myLongitude);
         myLatLng = new LatLng(myLatitude, myLongitude);
 
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_NETWORK_STATE}, 1);
-
-
+        ActivityCompat.requestPermissions(this, new String[]{
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.ACCESS_NETWORK_STATE},
+                1);
     }
 
     private void fetchDirections(String origin, String destination) {
@@ -223,6 +262,31 @@ public class MapsActivity extends AppCompatActivity implements
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+    }
+
+    private void getLastLocation() {
+        FusedLocationProviderClient mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        mFusedLocationClient.getLastLocation()
+                .addOnSuccessListener(new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        if (location != null) {
+//                            getAddress(location);
+                            Log.d(TAG, "Fused Latitude: " + location.getLatitude());
+                            Log.d(TAG, "Fused Longitude: " + location.getLongitude());
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "Error trying to get GPS location");
+                        e.printStackTrace();
+                    }
+                });
     }
 
     @Override
