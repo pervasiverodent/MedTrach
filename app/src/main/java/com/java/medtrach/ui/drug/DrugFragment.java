@@ -38,6 +38,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.annotations.NotNull;
 import com.java.medtrach.MapsActivity;
 import com.java.medtrach.R;
 import com.java.medtrach.common.Common;
@@ -219,24 +220,48 @@ public class DrugFragment extends Fragment {
             @Override
             protected void onBindViewHolder(@NonNull DrugsViewHolder holder, int position, @NonNull DrugModel model) {
 
+                final String myDrugId = model.getDrugId().toString();
+
                 holder.drugName.setText(model.getDrugName());
                 holder.drugDescription.setText(model.getDrugDescription());
                 holder.pharmacyName.setText(model.getDrugPharmacyName());
                 holder.pharmacyLocation.setText(model.getDrugPharmacyLocation());
 
-
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                drugReference.child(myDrugId).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(getActivity(), MapsActivity.class);
-                        try {
-                            intent.putExtra("pharmacyId", model.getDrugPharmacyId());
-                            startActivity(intent);
-                        } catch (NullPointerException e) {
-                            Toast.makeText(getContext(), "E: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
+                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+
+                        Log.d(TAG, "onDataChange: Drug ID " +  myDrugId);
+                        final String pharmacyName = snapshot.child("drugPharmacyName").getValue().toString();
+                        final String pharmacyLocation = snapshot.child("drugPharmacyLocation").getValue().toString();
+                        final Double pharmacyLongitude = (Double) snapshot.child("pharmacyLocationX").getValue();
+                        final Double pharmacyLatitude = (Double) snapshot.child("pharmacyLocationY").getValue();
+
+                        holder.itemView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent = new Intent(getActivity(), MapsActivity.class);
+                                try {
+                                    intent.putExtra("pharmacyId", model.getDrugPharmacyId());
+                                    intent.putExtra("pharmacyName", pharmacyName);
+                                    intent.putExtra("pharmacyLocation", pharmacyLocation);
+                                    intent.putExtra("pharmacyLongitude", pharmacyLongitude);
+                                    intent.putExtra("pharmacyLatitude", pharmacyLatitude);
+                                    startActivity(intent);
+                                } catch (NullPointerException e) {
+                                    Toast.makeText(getContext(), "E: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
                     }
                 });
+
+
             }
 
             @NonNull

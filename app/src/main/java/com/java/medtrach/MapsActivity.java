@@ -229,7 +229,7 @@ public class MapsActivity extends AppCompatActivity implements
             public void onClick(View view) {
                 //Concat PharmacyLatLng and MyLatLng to String
                 origin = pharmacyLatitude + "," + pharmacyLongitude;
-                destination = myLatitude + "," + myLongitude;
+//                destination = myLatitude + "," + myLongitude;
                 Log.d(TAG, "Map Mode: " + mapModeOption);
                 fetchDirections(origin, destination, mapModeOption);
             }
@@ -246,32 +246,32 @@ public class MapsActivity extends AppCompatActivity implements
             e.printStackTrace();
         }
 
-        if (gpsLocation != null) {
-            finalLocation = gpsLocation;
-            myLatitude = finalLocation.getLatitude();
-            myLongitude = finalLocation.getLongitude();
-            Log.d(TAG, "Type: GPS");
-
-        } else if (networkLocation != null) {
-            finalLocation = networkLocation;
-            myLatitude = finalLocation.getLatitude();
-            myLongitude = finalLocation.getLongitude();
-            Log.d(TAG, "Type: Network");
-        } else if (passiveLocation != null) {
-            finalLocation = passiveLocation;
-            myLatitude = finalLocation.getLatitude();
-            myLongitude = finalLocation.getLongitude();
-            Log.d(TAG, "Type: Passive");
-        } else if (extraLocation != null) {
-            finalLocation = extraLocation;
-            myLatitude = finalLocation.getLatitude();
-            myLongitude = finalLocation.getLongitude();
-            Log.d(TAG, "Type: Extra");
-        } else {
-            myLatitude = 0.0;
-            myLongitude = 0.0;
-            Log.d(TAG, "Type: null");
-        }
+//        if (gpsLocation != null) {
+//            finalLocation = gpsLocation;
+//            myLatitude = finalLocation.getLatitude();
+//            myLongitude = finalLocation.getLongitude();
+//            Log.d(TAG, "Type: GPS");
+//
+//        } else if (networkLocation != null) {
+//            finalLocation = networkLocation;
+//            myLatitude = finalLocation.getLatitude();
+//            myLongitude = finalLocation.getLongitude();
+//            Log.d(TAG, "Type: Network");
+//        } else if (passiveLocation != null) {
+//            finalLocation = passiveLocation;
+//            myLatitude = finalLocation.getLatitude();
+//            myLongitude = finalLocation.getLongitude();
+//            Log.d(TAG, "Type: Passive");
+//        } else if (extraLocation != null) {
+//            finalLocation = extraLocation;
+//            myLatitude = finalLocation.getLatitude();
+//            myLongitude = finalLocation.getLongitude();
+//            Log.d(TAG, "Type: Extra");
+//        } else {
+//            myLatitude = 0.0;
+//            myLongitude = 0.0;
+//            Log.d(TAG, "Type: null");
+//        }
 
 
         Intent intent = getIntent();
@@ -347,6 +347,7 @@ public class MapsActivity extends AppCompatActivity implements
     };
 
     private void setUserLocationMarker(Location location) {
+        destination = location.getLatitude() + "," + location.getLongitude();
 
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
         LatLng pharmacyLatLng = new LatLng(pharmacyLatitude, pharmacyLongitude);
@@ -441,6 +442,7 @@ public class MapsActivity extends AppCompatActivity implements
             public void onSuccess(Location location) {
                 LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 20));
+                fetchDirections(origin, destination, mapModeOption);
 //                mMap.addMarker(new MarkerOptions().position(latLng));
             }
         });
