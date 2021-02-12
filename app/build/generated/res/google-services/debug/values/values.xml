@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">999998284046-6ok9s9t4mdq5v0ek9hsmjiisblfisrhp.apps.googleusercontent.com</string>
+    <string name="firebase_database_url" translatable="false">https://medtrach-c3366.firebaseio.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">999998284046</string>
+    <string name="google_api_key" translatable="false">AIzaSyBzYfl3QOEiRl6DEzHK99h4OevXkeZJg5w</string>
+    <string name="google_app_id" translatable="false">1:999998284046:android:c4bd00d4e01ab1bba1375f</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyBzYfl3QOEiRl6DEzHK99h4OevXkeZJg5w</string>
+    <string name="google_storage_bucket" translatable="false">medtrach-c3366.appspot.com</string>
+    <string name="project_id" translatable="false">medtrach-c3366</string>
+</resources>

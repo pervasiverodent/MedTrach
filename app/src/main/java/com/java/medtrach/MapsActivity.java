@@ -131,6 +131,14 @@ public class MapsActivity extends AppCompatActivity implements
         Places.initialize(getApplicationContext(), "AIzaSyBl5MEJvaKveEKEo_-Js_8PolRKXIm0-vM");
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
 
+        Intent intent = getIntent();
+        pharmacyId = intent.getStringExtra("pharmacyId");
+        pharmacyName = intent.getStringExtra("pharmacyName");
+        pharmacyLocation = intent.getStringExtra("pharmacyLocation");
+        pharmacyLongitude = intent.getDoubleExtra("pharmacyLongitude", 0.0);
+        pharmacyLatitude = intent.getDoubleExtra("pharmacyLatitude", 0.0);
+
+
         assert mapFragment != null;
         mapFragment.getMapAsync(googleMap -> {
             defaultMapSettings(googleMap);
@@ -246,54 +254,19 @@ public class MapsActivity extends AppCompatActivity implements
             e.printStackTrace();
         }
 
-//        if (gpsLocation != null) {
-//            finalLocation = gpsLocation;
-//            myLatitude = finalLocation.getLatitude();
-//            myLongitude = finalLocation.getLongitude();
-//            Log.d(TAG, "Type: GPS");
-//
-//        } else if (networkLocation != null) {
-//            finalLocation = networkLocation;
-//            myLatitude = finalLocation.getLatitude();
-//            myLongitude = finalLocation.getLongitude();
-//            Log.d(TAG, "Type: Network");
-//        } else if (passiveLocation != null) {
-//            finalLocation = passiveLocation;
-//            myLatitude = finalLocation.getLatitude();
-//            myLongitude = finalLocation.getLongitude();
-//            Log.d(TAG, "Type: Passive");
-//        } else if (extraLocation != null) {
-//            finalLocation = extraLocation;
-//            myLatitude = finalLocation.getLatitude();
-//            myLongitude = finalLocation.getLongitude();
-//            Log.d(TAG, "Type: Extra");
-//        } else {
-//            myLatitude = 0.0;
-//            myLongitude = 0.0;
-//            Log.d(TAG, "Type: null");
-//        }
 
-
-        Intent intent = getIntent();
-        //        XCoordinateTextView.setText(myLatitude.toString());
-
-//        YCoordinateTextView.setText(myLongitude.toString());
-
-        pharmacyId = intent.getStringExtra("pharmacyId");
-        pharmacyName = intent.getStringExtra("pharmacyName");
-        pharmacyLocation = intent.getStringExtra("pharmacyLocation");
         pharmacyNameTextView.setText(pharmacyName);
         pharmacyLocationTextView.setText(pharmacyLocation);
 
         assert pharmacyId != null;
-        pharmacyReference.child(pharmacyId).addListenerForSingleValueEvent(new ValueEventListener() {
+        pharmacyReference.child(pharmacyId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                pharmacyLatitude = snapshot.child("pharmacyLocationY").getValue(double.class);
-                pharmacyLongitude = snapshot.child("pharmacyLocationX").getValue(double.class);
-                pharmacyLatLng = new LatLng(pharmacyLatitude, pharmacyLongitude);
-                Log.d(TAG, "Pharmacy Location Y: " + pharmacyLatitude);
-                Log.d(TAG, "Pharmacy Location X: " + pharmacyLongitude);
+//                pharmacyLatitude = snapshot.child("pharmacyLocationY").getValue(double.class);
+//                pharmacyLongitude = snapshot.child("pharmacyLocationX").getValue(double.class);
+//                pharmacyLatLng = new LatLng(pharmacyLatitude, pharmacyLongitude);
+//                Log.d(TAG, "Pharmacy Location Y: " + pharmacyLatitude);
+//                Log.d(TAG, "Pharmacy Location X: " + pharmacyLongitude);
             }
 
             @Override
@@ -301,12 +274,6 @@ public class MapsActivity extends AppCompatActivity implements
                 Log.e(TAG, error.getMessage());
             }
         });
-
-        Log.d(TAG, "Pharmacy Location Y: " + pharmacyLatitude);
-        Log.d(TAG, "Pharmacy Location X: " + pharmacyLongitude);
-
-        Log.d(TAG, "My Latitude: " + myLatitude);
-        Log.d(TAG, "My Longitude: " + myLongitude);
 
         ActivityCompat.requestPermissions(this, new String[]{
                         Manifest.permission.ACCESS_FINE_LOCATION,

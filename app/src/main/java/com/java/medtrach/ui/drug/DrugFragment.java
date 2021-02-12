@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
@@ -34,10 +35,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -61,11 +66,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-
-
 public class DrugFragment extends Fragment {
     private static final String TAG = DrugFragment.class.getName();
     public static final Integer RecordAudioRequestCode = 1;
+    private int LOCATION_REQUEST_CODE = 10001;
 
     //RecyclerView
     private PharmacyModel pharmacyModel;
@@ -87,6 +91,7 @@ public class DrugFragment extends Fragment {
     private ImageView microphoneImageView;
 
     private FusedLocationProviderClient fusedLocationClient;
+    private FusedLocationProviderClient fusedLocationProviderClient;
     private LocationRequest locationRequest;
     private Double myLatitude, myLongitude;
     private LatLng myLatLng, pharmacyLatLng;
@@ -248,6 +253,9 @@ public class DrugFragment extends Fragment {
                 final Double myPharmacyLatitude = model.getDrugPharmacyLatitude();
                 final Double myPharmacyLongitude = model.getDrugPharmacyLongitude();
 
+                Log.d(TAG, "onBindViewHolder: Pharmacy Latitude: " + myPharmacyLatitude);
+                Log.d(TAG, "onBindViewHolder: Pharmacy Longitude: " + myPharmacyLongitude);
+
                 holder.drugName.setText(model.getDrugName());
                 holder.drugDescription.setText(model.getDrugDescription());
                 holder.pharmacyName.setText(model.getDrugPharmacyName());
@@ -258,11 +266,9 @@ public class DrugFragment extends Fragment {
                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
 
                         Log.d(TAG, "onDataChange: Drug ID " +  myDrugId);
-                        final String pharmacyId = snapshot.child("drugPharmacyId").getValue(String.class);
+                        final String pharmacyId = snapshot.child("drugPharmacyId").getValue().toString();
                         final String pharmacyName = snapshot.child("drugPharmacyName").getValue().toString();
                         final String pharmacyLocation = snapshot.child("drugPharmacyLocation").getValue().toString();
-                        final Double pharmacyLongitude = (Double) snapshot.child("pharmacyLocationX").getValue();
-                        final Double pharmacyLatitude = (Double) snapshot.child("pharmacyLocationY").getValue();
 
                         pharmacyLatLng = new LatLng(myPharmacyLatitude, myPharmacyLongitude);
                         double distance = SphericalUtil.computeDistanceBetween(myLatLng, pharmacyLatLng) / 1000;
@@ -277,11 +283,10 @@ public class DrugFragment extends Fragment {
                                 Intent intent = new Intent(getActivity(), MapsActivity.class);
                                 try {
                                     intent.putExtra("pharmacyId", pharmacyId);
-//                                    intent.putExtra("pharmacyId", pharmacyId);
                                     intent.putExtra("pharmacyName", pharmacyName);
                                     intent.putExtra("pharmacyLocation", pharmacyLocation);
-                                    intent.putExtra("pharmacyLongitude", pharmacyLongitude);
-                                    intent.putExtra("pharmacyLatitude", pharmacyLatitude);
+                                    intent.putExtra("pharmacyLatitude", myPharmacyLatitude);
+                                    intent.putExtra("pharmacyLongitude", myPharmacyLongitude);
                                     startActivity(intent);
                                 } catch (NullPointerException e) {
                                     Toast.makeText(getContext(), "E: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -315,15 +320,6 @@ public class DrugFragment extends Fragment {
     private void checkPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.RECORD_AUDIO},RecordAudioRequestCode);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == RecordAudioRequestCode && grantResults.length > 0 ){
-            if(grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                Toast.makeText(getContext(),"Permission Granted", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -245,6 +245,7 @@ public class PharmacyFragment extends Fragment {
 
                     @Override
                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                        double distance;
 
                         final String pharmacyId = snapshot.child("pharmacyId").getValue().toString();
                         final String pharmacyName = snapshot.child("pharmacyName").getValue().toString();
@@ -256,7 +257,11 @@ public class PharmacyFragment extends Fragment {
                         Log.d(TAG, "Location: " + pharmacyLocation);
 
                         pharmacyLatLng = new LatLng(myPharmacyLatitude, myPharmacyLongitude);
-                        double distance = SphericalUtil.computeDistanceBetween(myLatLng, pharmacyLatLng) / 1000;
+                        try {
+                            distance = SphericalUtil.computeDistanceBetween(myLatLng, pharmacyLatLng) / 1000;
+                        } catch(NullPointerException e) {
+                            distance = 0.0;
+                        }
                         String convertedDistance = String.format("%.2f", distance).toLowerCase();
 
                         Log.d(TAG, "onDataChange: Distance " + distance);
@@ -271,8 +276,8 @@ public class PharmacyFragment extends Fragment {
                                     intent.putExtra("pharmacyId", pharmacyId);
                                     intent.putExtra("pharmacyName", pharmacyName);
                                     intent.putExtra("pharmacyLocation", pharmacyLocation);
-//                                    intent.putExtra("pharmacyLongitude", pharmacyLongitude);
-//                                    intent.putExtra("pharmacyLatitude", pharmacyLatitude);
+                                    intent.putExtra("pharmacyLongitude", myPharmacyLongitude);
+                                    intent.putExtra("pharmacyLatitude", myPharmacyLatitude);
 
                                     startActivity(intent);
                                 } catch (NullPointerException e) {
@@ -302,7 +307,7 @@ public class PharmacyFragment extends Fragment {
 
         adapter.startListening();
         recyclerView.setAdapter(adapter);
-        }
+    }
 
 
     private void checkPermission() {
