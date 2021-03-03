@@ -106,10 +106,10 @@ public class VoiceFragment extends Fragment {
 
 
 //        checkPermission();
-        if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.RECORD_AUDIO)
-                != PackageManager.PERMISSION_GRANTED){
-            checkPermission();
-        }
+//        if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.RECORD_AUDIO)
+//                != PackageManager.PERMISSION_GRANTED){
+//            checkPermission();
+//        }
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
         fusedLocationClient.getLastLocation()
@@ -233,10 +233,10 @@ public class VoiceFragment extends Fragment {
             return;
         }
 
-        if (requestCode == RecordAudioRequestCode && grantResults.length > 0 ){
-            if(grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                Toast.makeText(getContext(),"Permission Granted", Toast.LENGTH_SHORT).show();
-        }
+//        if (requestCode == RecordAudioRequestCode && grantResults.length > 0 ){
+//            if(grantResults[0] == PackageManager.PERMISSION_GRANTED)
+//                Toast.makeText(getContext(),"Permission Granted", Toast.LENGTH_SHORT).show();
+//        }
     }
 
     private void loadData(String data) {
@@ -269,7 +269,6 @@ public class VoiceFragment extends Fragment {
                         final String pharmacyId = snapshot.child("drugPharmacyId").getValue().toString();
                         final String pharmacyName = snapshot.child("drugPharmacyName").getValue().toString();
                         final String pharmacyLocation = snapshot.child("drugPharmacyLocation").getValue().toString();
-
                         pharmacyLatLng = new LatLng(myPharmacyLatitude, myPharmacyLongitude);
                         double distance = SphericalUtil.computeDistanceBetween(myLatLng, pharmacyLatLng) / 1000;
                         String convertedDistance = String.format("%.2f", distance).toLowerCase();
@@ -316,21 +315,21 @@ public class VoiceFragment extends Fragment {
 //        adapter.startListening();
         recyclerView.setAdapter(adapter);
     }
-
-    private void checkPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{
-                            Manifest.permission.ACCESS_FINE_LOCATION,
-                            Manifest.permission.ACCESS_COARSE_LOCATION,
-                            Manifest.permission.ACCESS_NETWORK_STATE,
-                            Manifest.permission.RECORD_AUDIO},
-                    1);
-
-            adapter.notifyDataSetChanged();
-        }
-
-        return;
-    }
+//
+//    private void checkPermission() {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            ActivityCompat.requestPermissions(getActivity(), new String[]{
+//                            Manifest.permission.ACCESS_FINE_LOCATION,
+//                            Manifest.permission.ACCESS_COARSE_LOCATION,
+//                            Manifest.permission.ACCESS_NETWORK_STATE,
+//                            Manifest.permission.RECORD_AUDIO},
+//                    1);
+//            Toast.makeText(getContext(), "PERMISSION GRANTED", Toast.LENGTH_SHORT).show();
+////            adapter.notifyDataSetChanged();
+//        }
+//
+//        return;
+//    }
 
     @Override
     public void onStart() {

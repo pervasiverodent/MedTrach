@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -37,6 +38,15 @@ import com.java.medtrach.EventBus.MenuItemBack;
 import com.java.medtrach.common.Common;
 import com.java.medtrach.common.LoadingAnimation;
 import com.java.medtrach.model.UserModel;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.DexterBuilder;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+import com.karumi.dexter.listener.single.PermissionListener;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -52,6 +62,8 @@ import androidx.appcompat.widget.Toolbar;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.List;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private final String TAG = HomeActivity.class.getSimpleName();
@@ -263,28 +275,29 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
     private void askLocationPermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
-                Log.d(TAG, "askLocationPermission: Should show an alert dialog...");
-                ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
-            } else {
-                ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
-            }
-        }
+//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+//                Log.d(TAG, "askLocationPermission: Should show an alert dialog...");
+//                ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
+////                startLocationUpdates();
+//            } else {
+//                ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
+//            }
+//        }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == LOCATION_REQUEST_CODE) {
-            if (grantResults.length >0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission granted
-                getLastLocation();
-                checkSettingsAndStartLocationUpdates();
-            } else {
-                //Permission not granted
-            }
-        }
-    }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        if (requestCode == LOCATION_REQUEST_CODE) {
+//            if (grantResults.length >0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                // Permission granted
+//                getLastLocation();
+//                checkSettingsAndStartLocationUpdates();
+//            } else {
+//                //Permission not granted
+//            }
+//        }
+//    }
 
 
     private void signOut() {
